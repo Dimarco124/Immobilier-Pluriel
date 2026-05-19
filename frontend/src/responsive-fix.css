@@ -1,0 +1,196 @@
+/* FIX DÉBORDEMENT - RESPONSIVE COMPLET */
+
+/* Reset global strict */
+* {
+  box-sizing: border-box !important;
+}
+
+html {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#root {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+.app-shell {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+}
+
+/* Tous les conteneurs principaux */
+.content-wrap,
+.site-header,
+.site-header-wrap,
+.site-header-panel,
+.site-footer,
+.page,
+.section-block,
+.page-hero,
+.split-strip,
+.timeline-section,
+.contact-layout,
+.hero-carousel,
+.hero-stats-grid,
+.promise-split,
+.services-explorer,
+.visual-banner,
+.container {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* Images */
+img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Grilles */
+.card-grid,
+.three-up,
+.four-up,
+.two-up,
+.project-grid,
+.services-grid,
+.news-grid,
+.timeline-grid,
+.stat-banner,
+.footer-main {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Carousels */
+.services-carousel-wrapper,
+.services-carousel-viewport,
+.services-carousel-track,
+.terrains-carousel-wrapper,
+.terrains-carousel-viewport,
+.terrains-carousel-track,
+.project-carousel-container,
+.project-carousel-track,
+.news-carousel-container,
+.news-carousel-track {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.services-carousel-track,
+.terrains-carousel-track {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Slides */
+.services-carousel-slide,
+.terrains-carousel-slide,
+.project-carousel-slide,
+.news-carousel-slide {
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Cards */
+.service-card-premium,
+.terrain-mini-card,
+.project-preview-card-horizontal,
+.news-preview-card-horizontal,
+.feature-card,
+.service-card,
+.project-card,
+.team-card,
+.news-card {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+  .content-wrap {
+    width: 100% !important;
+    padding: 18px 10px 68px !important;
+  }
+
+  .site-header {
+    width: 100% !important;
+    padding: 20px 10px 8px !important;
+  }
+
+  .site-header-panel {
+    padding: 12px 16px !important;
+  }
+
+  .section-block,
+  .page-hero,
+  .split-strip,
+  .timeline-section,
+  .contact-layout {
+    padding: 20px 15px !important;
+  }
+
+  .hero-stats-grid {
+    padding: 20px 15px !important;
+    gap: 15px !important;
+  }
+
+  .site-footer {
+    width: calc(100% - 20px) !important;
+    padding: 40px 20px 20px !important;
+  }
+
+  .services-carousel-slide {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+  }
+
+  .terrains-carousel-slide {
+    flex: 0 0 280px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-wrap {
+    padding: 18px 8px 68px !important;
+  }
+
+  .site-header {
+    padding: 20px 8px 8px !important;
+  }
+
+  .site-header-panel {
+    padding: 10px 12px !important;
+  }
+
+  .section-block,
+  .page-hero,
+  .split-strip,
+  .timeline-section,
+  .contact-layout {
+    padding: 18px 12px !important;
+  }
+
+  .hero-stats-grid {
+    padding: 18px 12px !important;
+  }
+
+  .site-footer {
+    width: calc(100% - 16px) !important;
+    padding: 30px 15px 15px !important;
+  }
+
+  .terrains-carousel-slide {
+    flex: 0 0 260px !important;
+  }
+}

@@ -1,0 +1,279 @@
+/* ========================================
+   TERRAINS SECTION
+   ======================================== */
+
+.terrains-new-section {
+  padding: 100px 0;
+  background: #f8f9fa;
+}
+
+.terrains-new-header {
+  max-width: 1400px;
+  margin: 0 auto 60px;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.terrains-new-titles {
+  flex: 1;
+}
+
+.terrains-new-label {
+  display: inline-block;
+  padding: 8px 24px;
+  background: #1a432b;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+.terrains-new-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.terrains-new-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.terrains-new-btn {
+  width: 56px;
+  height: 56px;
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
+  color: #1a432b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.4rem;
+}
+
+.terrains-new-btn:hover {
+  background: #1a432b;
+  color: #ffffff;
+  border-color: #1a432b;
+}
+
+.terrains-new-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.terrains-new-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.terrain-new-card {
+  flex: 0 0 400px;
+  background: #ffffff;
+  border: 2px solid #e5e7eb;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: block;
+}
+
+.terrain-new-card:hover {
+  transform: translateY(-8px);
+  border-color: #1a432b;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+}
+
+.terrain-new-image {
+  width: 100%;
+  height: 280px;
+  position: relative;
+  overflow: hidden;
+}
+
+.terrain-new-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.terrain-new-card:hover .terrain-new-image img {
+  transform: scale(1.08);
+}
+
+.terrain-new-status {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 8px 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+.terrain-new-status.status-disponible {
+  background: #4caf50;
+  color: #ffffff;
+}
+
+.terrain-new-status.status-réservé {
+  background: #ff9800;
+  color: #ffffff;
+}
+
+.terrain-new-status.status-vendu {
+  background: #9e9e9e;
+  color: #ffffff;
+}
+
+.terrain-new-content {
+  padding: 28px;
+}
+
+.terrain-new-meta {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.terrain-new-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.terrain-new-meta svg {
+  color: #1a432b;
+  font-size: 1.1rem;
+}
+
+.terrain-new-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 20px 0;
+  line-height: 1.3;
+}
+
+.terrain-new-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 2px solid #e5e7eb;
+}
+
+.terrain-new-price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a432b;
+}
+
+.terrain-new-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1a432b;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: gap 0.3s ease;
+}
+
+.terrain-new-card:hover .terrain-new-link {
+  gap: 12px;
+}
+
+.terrains-new-cta {
+  max-width: 1400px;
+  margin: 60px auto 0;
+  padding: 0 40px;
+  text-align: center;
+}
+
+.terrains-new-btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 40px;
+  background: #1a432b;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid #1a432b;
+}
+
+.terrains-new-btn-link:hover {
+  background: transparent;
+  color: #1a432b;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+  .terrains-new-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+  }
+  
+  .terrains-new-title {
+    font-size: 2.2rem;
+  }
+  
+  .terrain-new-card {
+    flex: 0 0 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .terrains-new-section {
+    padding: 60px 0;
+  }
+  
+  .terrains-new-header {
+    padding: 0 20px;
+    margin-bottom: 40px;
+  }
+  
+  .terrains-new-title {
+    font-size: 1.8rem;
+  }
+  
+  .terrains-new-grid {
+    padding: 0 20px;
+    gap: 20px;
+  }
+  
+  .terrain-new-card {
+    flex: 0 0 300px;
+  }
+  
+  .terrains-new-cta {
+    padding: 0 20px;
+  }
+  
+  .terrains-new-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+}

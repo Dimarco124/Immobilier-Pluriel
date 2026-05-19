@@ -1,0 +1,348 @@
+/* ========================================
+   HERO PREMIUM - MONUMENTAL DESIGN
+   ======================================== */
+
+.hero-premium {
+  position: relative;
+  min-height: 95vh;
+  overflow: hidden;
+  background: #0a1f16;
+}
+
+.hero-premium-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease, visibility 1s ease;
+}
+
+.hero-premium-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hero-premium-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+}
+
+.hero-premium-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(7, 32, 23, 0.72) 0%,
+    rgba(7, 32, 23, 0.35) 35%,
+    rgba(7, 32, 23, 0.08) 100%
+  );
+  z-index: 1;
+}
+
+.hero-premium-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 60px;
+  height: 95vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
+}
+
+.hero-premium-text {
+  flex: 1;
+  max-width: 650px;
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #D7E7DA;
+  margin-bottom: 24px;
+}
+
+.hero-premium-title {
+  font-size: clamp(3rem, 7vw, 5.8rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: white;
+  margin: 0 0 28px 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.hero-premium-description {
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.85);
+  max-width: 480px;
+  margin-bottom: 32px;
+}
+
+.hero-location-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255,255,255,0.9);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.hero-location-line svg {
+  font-size: 1.3rem;
+  color: #D7E7DA;
+}
+
+.hero-premium-card {
+  position: absolute;
+  right: 8%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(18px);
+  border-radius: 28px;
+  padding: 32px;
+  width: 320px;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.18);
+}
+
+.hero-card-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #6A8F76;
+  margin-bottom: 12px;
+}
+
+.hero-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #142D22;
+  margin: 0 0 16px 0;
+  line-height: 1.3;
+}
+
+.hero-card-text {
+  font-size: 0.95rem;
+  color: #5F6E67;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.hero-card-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 24px;
+  background: #163326;
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero-card-button:hover {
+  background: #1a432b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(22, 51, 38, 0.3);
+}
+
+.hero-premium-controls {
+  position: absolute;
+  bottom: 60px;
+  right: 60px;
+  display: flex;
+  gap: 16px;
+  z-index: 3;
+}
+
+.hero-control-btn {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(10px);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero-control-btn:hover {
+  background: white;
+  color: #163326;
+  transform: scale(1.1);
+}
+
+.hero-premium-dots {
+  position: absolute;
+  bottom: 60px;
+  left: 60px;
+  display: flex;
+  gap: 12px;
+  z-index: 3;
+}
+
+.hero-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero-dot.is-active {
+  width: 36px;
+  border-radius: 999px;
+  background: white;
+}
+
+.hero-dot:hover {
+  background: rgba(255,255,255,0.7);
+}
+
+.hero-stats-premium {
+  position: relative;
+  z-index: 10;
+  margin-top: -70px;
+  padding: 0 60px;
+}
+
+.hero-stats-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.hero-stat-premium-card {
+  background: white;
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.hero-stat-premium-card:hover {
+  transform: translateY(-8px);
+}
+
+.stat-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #18392B;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.95rem;
+  color: #6E7C74;
+  line-height: 1.4;
+}
+
+@media (max-width: 1200px) {
+  .hero-premium-content {
+    padding: 0 40px;
+    gap: 40px;
+  }
+  
+  .hero-premium-card {
+    right: 40px;
+    width: 280px;
+    padding: 28px;
+  }
+  
+  .hero-premium-title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-premium-card {
+    position: static;
+    transform: none;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .hero-premium-content {
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 40px;
+  }
+  
+  .hero-stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-premium {
+    min-height: 100vh;
+  }
+  
+  .hero-premium-content {
+    padding: 0 24px;
+    height: 100vh;
+  }
+  
+  .hero-premium-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+  
+  .hero-premium-description {
+    font-size: 1rem;
+  }
+  
+  .hero-premium-controls {
+    bottom: 40px;
+    right: 24px;
+  }
+  
+  .hero-premium-dots {
+    bottom: 40px;
+    left: 24px;
+  }
+  
+  .hero-control-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.1rem;
+  }
+  
+  .hero-stats-premium {
+    padding: 0 24px;
+  }
+  
+  .hero-stats-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-stat-premium-card {
+    padding: 24px;
+  }
+}

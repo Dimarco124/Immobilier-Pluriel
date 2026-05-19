@@ -1,0 +1,180 @@
+/* GLOBAL OVERRIDES - Bordures rectangulaires et suppression des ombres */
+
+/* Supprimer les ombres (sauf landing page nature premium) */
+*:not(.landing-page):not(.landing-page *):not(.nl-header):not(.nl-header *):not(.nl-footer):not(.nl-footer *) {
+  box-shadow: none !important;
+}
+
+.landing-page .sp-card,
+.landing-page .sp-panel,
+.landing-page .sp-form,
+.landing-page .sp-info-card,
+.landing-page .sp-featured-news,
+.landing-page .sp-panel-body-only,
+.landing-page .sp-media,
+.landing-page .sp-sidebar-card,
+.landing-page .sp-timeline li,
+.landing-page .sp-tags li,
+.landing-page .sp-nav-list button,
+.landing-page .sp-cta-box,
+.landing-page .nl-atelier-spotlight {
+  border-radius: 0 !important;
+}
+
+/* Bordures rectangulaires — les pages .landing-page gardent le design premium */
+.site-footer,
+.section-block,
+.page-hero,
+.split-strip,
+.timeline-section,
+.contact-layout,
+.hero-carousel,
+.hero-stats-grid,
+.hero-stat-card,
+.hero-carousel-info,
+.hero-carousel-button,
+.hero-carousel-dots button,
+.button,
+.button-primary,
+.button-dark,
+.text-link,
+.text-linked,
+.feature-card,
+.service-card,
+.service-card-premium,
+.service-detail-card,
+.project-card,
+.team-card,
+.news-card,
+.timeline-card,
+.info-card,
+.contact-form-card,
+.contact-form input,
+.contact-form textarea,
+.visual-banner,
+.visual-banner img,
+.promise-split,
+.services-explorer,
+.services-details-pane,
+.service-nav-card,
+.details-close-btn,
+.icon-badge,
+.icon-badge-small,
+.eyebrow,
+.card-kicker,
+.social-icon,
+.svc-arrow,
+.tr-arrow,
+.terrain-mini-card,
+.terrain-mini-image,
+.terrain-mini-badge,
+.terrain-card-premium,
+.terrain-detail-main,
+.terrain-sidebar,
+.terrain-info-card,
+.terrain-cta-card,
+.project-detail-main,
+.project-detail-sidebar,
+.news-preview-card,
+.news-card-large,
+.news-card-image,
+.blog-main-image,
+.share-button,
+.newsletter-form,
+.newsletter-form input,
+.newsletter-form button,
+.footer-socials a,
+.project-preview-card-horizontal,
+.news-preview-card-horizontal,
+.project-category-badge,
+.terrain-status-badge {
+  border-radius: 0 !important;
+}
+
+/* Background blanc pour tous les éléments principaux */
+.section-block,
+.page-hero,
+.contact-layout,
+.timeline-section,
+.feature-card,
+.service-card,
+.service-detail-card,
+.project-card,
+.team-card,
+.news-card,
+.timeline-card,
+.info-card,
+.contact-form-card,
+.visual-banner,
+.services-details-pane,
+.terrain-mini-card,
+.terrain-card-premium,
+.terrain-detail-main,
+.terrain-sidebar,
+.terrain-info-card,
+.project-detail-main,
+.project-detail-sidebar,
+.news-preview-card,
+.news-card-large,
+.blog-detail-header,
+.promise-split,
+.hero-carousel-info {
+  background: #ffffff !important;
+}
+
+/* Cartes avec fond légèrement gris */
+.stat-banner article,
+.timeline-card,
+.details-example {
+  background: #f5f5f7 !important;
+}
+
+/* Hero carousel - garder le gradient */
+.hero-stats-grid {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2e 100%) !important;
+}
+
+.hero-stat-card {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Split sections - garder les fonds sombres */
+.split-strip,
+.contact-strip {
+  background: #1d1d1d !important;
+}
+
+.split-copy-inverse {
+  background: linear-gradient(135deg, #273536 0%, #384d51 100%) !important;
+}
+
+/* Footer - garder le fond sombre */
+.site-footer {
+  background: #121212 !important;
+}
+
+/* Bordures pour les cartes */
+.feature-card,
+.service-card,
+.service-detail-card,
+.project-card,
+.team-card,
+.news-card,
+.timeline-card,
+.info-card,
+.terrain-mini-card,
+.news-preview-card {
+  border: 1px solid #d1d1d6 !important;
+}
+
+/* Transitions douces */
+.button,
+.text-link,
+.feature-card,
+.service-card,
+.project-card,
+.team-card,
+.news-card,
+.terrain-mini-card {
+  transition: all 0.3s ease !important;
+}
