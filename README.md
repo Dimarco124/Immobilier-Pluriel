@@ -1,33 +1,33 @@
-# 🏢 Immobilier Pluriel - Platform Immobilière
+#  Immobilier Pluriel - Platform Immobilière
 
 Plateforme immobilière complète pour Immobilier Pluriel avec gestion de terrains, projets, actualités et espace d'administration.
 
-## 🌐 Démo
+##  Démo
 
 - **Site Public** : https://immobilierpluriel.com
 - **Admin** : https://immobilierpluriel.com/admin
 
-## 🎯 Fonctionnalités
+##  Fonctionnalités
 
 ### Pour les Visiteurs
-- 📍 Catalogue de terrains avec recherche et filtres
-- 🏗️ Portfolio de projets réalisés
-- 📰 Actualités et blog
-- 👥 Équipe et services
-- 📞 Formulaire de contact
-- 🎨 Interface responsive et moderne
+-  Catalogue de terrains avec recherche et filtres
+-  Portfolio de projets réalisés
+-  Actualités et blog
+-  Équipe et services
+-  Formulaire de contact
+-  Interface responsive et moderne
 
 ### Pour les Administrateurs
-- 📊 Tableau de bord avec statistiques en temps réel
-- 💬 Gestion des messages de contact
-- 🏠 CRUD pour les terrains
-- 🏗️ CRUD pour les projets
-- 📰 Gestion des actualités
-- 👥 Gestion de l'équipe
-- ⚙️ Paramètres du site
-- 🔐 Authentification sécurisée
+-  Tableau de bord avec statistiques en temps réel
+-  Gestion des messages de contact
+-  CRUD pour les terrains
+-  CRUD pour les projets
+-  Gestion des actualités
+-  Gestion de l'équipe
+-  Paramètres du site
+-  Authentification sécurisée
 
-## 🛠️ Stack Technologique
+##  Stack Technologique
 
 ### Backend
 - **Framework** : Laravel 11
@@ -42,7 +42,7 @@ Plateforme immobilière complète pour Immobilier Pluriel avec gestion de terrai
 - **Icônes** : Lucide React
 - **HTTP Client** : Axios
 
-## 📦 Installation
+##  Installation
 
 ### Prérequis
 
@@ -112,7 +112,7 @@ npm run dev
 3. Configurer les variables d'environnement
 4. Configurer les SSL/TLS
 
-## 📝 Configuration
+##  Configuration
 
 ### Variables d'Environnement Essentielles
 
@@ -135,20 +135,16 @@ VITE_API_URL=https://api.immobilierpluriel.com/api
 
 Voir [`SECURITY.md`](./SECURITY.md) pour la configuration sécurisée complète.
 
-## 🔐 Authentification Admin
-
-**Identifiants par défaut** (À CHANGER EN PRODUCTION)
-- Email : `Admin@immobilierpluriel.com`
-- Mot de passe : `Pluriel@2024`
+##  Authentification Admin
 
 Pour changer le mot de passe :
 ```bash
 php artisan tinker
-$user = App\Models\User::where('email', 'Admin@immobilierpluriel.com')->first();
+$user = App\Models\User::where('email', 'Admin@.ci')->first();
 $user->update(['password' => Hash::make('nouveau_mot_de_passe')]);
 ```
 
-## 📂 Structure du Projet
+##  Structure du Projet
 
 ```
 immobilier-pluriel/
@@ -178,7 +174,7 @@ immobilier-pluriel/
 └── README.md                   # Ce fichier
 ```
 
-## 📊 Base de Données
+##  Base de Données
 
 ### Tables Principales
 
@@ -191,7 +187,7 @@ immobilier-pluriel/
 - `contact_submissions` - Messages de contact
 - `site_settings` - Configuration du site
 
-## 🔗 API Endpoints
+##  API Endpoints
 
 ### Public
 - `GET /api/terrains` - Liste des terrains
@@ -208,7 +204,7 @@ immobilier-pluriel/
 - `DELETE /admin/{resource}/{id}` - Supprimer
 - `POST /admin/messages/{id}/read` - Marquer message comme lu
 
-## 🧪 Tests
+##  Tests
 
 ### Tests Manuels
 
@@ -225,7 +221,7 @@ cd backend
 php artisan test
 ```
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### CORS Errors
 Vérifier `config/cors.php` et `VITE_API_URL`
@@ -246,24 +242,23 @@ rm node_modules package-lock.json
 npm install
 ```
 
-## 📚 Documentation
+##  Documentation
 
 - [Security Guide](./SECURITY.md) - Guide de sécurité
 - [Laravel Documentation](https://laravel.com/docs)
 - [React Documentation](https://react.dev)
 - [Tailwind CSS](https://tailwindcss.com)
 
-## 📞 Support
+##  Support
 
-- 📧 Email : contact@immobilierpluriel.com
-- 🌐 Site : https://immobilierpluriel.com
-- 📱 WhatsApp : [Lien WhatsApp](https://wa.me/message/...)
+-  Email : contact@immobilierpluriel.com
+-  Site : https://immobilierpluriel.com
 
-## 📄 License
+##  License
 
 Copyright © 2026 Immobilier Pluriel. Tous droits réservés.
 
-## 👥 Team
+##  Team
 
 Développé par Kouassi Valdes Moayé.
 
