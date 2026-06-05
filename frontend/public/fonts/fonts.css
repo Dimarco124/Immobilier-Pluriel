@@ -1,0 +1,75 @@
+/* ========================================
+   POLICES LOCALES - Cormorant Garamond & Montserrat
+   ======================================== */
+
+/* Cormorant Garamond - Light 300 */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('./cormorant-garamond-v16-latin-300.woff2') format('woff2');
+}
+
+/* Cormorant Garamond - Regular 400 */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./cormorant-garamond-v16-latin-regular.woff2') format('woff2');
+}
+
+/* Cormorant Garamond - Medium 500 */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./cormorant-garamond-v16-latin-500.woff2') format('woff2');
+}
+
+/* Cormorant Garamond - SemiBold 600 */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./cormorant-garamond-v16-latin-600.woff2') format('woff2');
+}
+
+/* Montserrat - Light 300 */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('./montserrat-v26-latin-300.woff2') format('woff2');
+}
+
+/* Montserrat - Regular 400 */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./montserrat-v26-latin-regular.woff2') format('woff2');
+}
+
+/* Montserrat - Medium 500 */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./montserrat-v26-latin-500.woff2') format('woff2');
+}
+
+/* Montserrat - SemiBold 600 */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./montserrat-v26-latin-600.woff2') format('woff2');
+}

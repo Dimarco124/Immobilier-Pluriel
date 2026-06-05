@@ -9,14 +9,15 @@
 }
 
 .container-modern {
-  max-width: 1200px;
+  max-width: var(--nl-max);
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 var(--nl-gutter);
+  width: 100%;
 }
 
 /* Hero Section */
 .hero-modern {
-  padding: 120px 0 80px;
+  padding: calc(var(--nl-header-h) + clamp(2rem, 8vw, 4rem)) 0 clamp(2rem, 6vw, 4rem);
   text-align: center;
 }
 
@@ -30,7 +31,7 @@
   padding: 8px 20px;
   background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2e 100%);
   color: #fff;
-  border-radius: 0;
+  border-radius: 999px;
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -47,11 +48,11 @@
 }
 
 .hero-title-modern {
-  font-size: 3rem;
+  font-size: clamp(2rem, 6vw, 3.5rem);
   font-weight: 700;
   color: #1a1a1a;
   margin-bottom: 24px;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 .hero-description-modern {
@@ -89,9 +90,9 @@
 }
 
 .image-wrapper-modern {
-  border-radius: 0;
+  border-radius: var(--nl-radius);
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
 }
 
 .image-wrapper-modern img {
@@ -106,10 +107,15 @@
   background: #f5f5f7;
 }
 
-.dual-grid-modern {
+/* Grids */
+.dual-grid-modern,
+.timeline-wrapper-modern,
+.principles-grid-modern,
+.team-grid-modern,
+.expertise-grid-modern {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(1rem, 3vw, 2.5rem);
 }
 
 .dual-card-modern {
@@ -126,7 +132,7 @@
 }
 
 .dual-card-accent .badge-modern {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .dual-card-accent .dual-title-modern,
@@ -153,9 +159,6 @@
 }
 
 .timeline-wrapper-modern {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
   margin-top: 60px;
 }
 
@@ -216,11 +219,7 @@
   background: #f5f5f7;
 }
 
-.principles-grid-modern {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
-}
+
 
 .principle-card-modern {
   background: #ffffff;
@@ -267,15 +266,11 @@
   padding: 80px 0;
 }
 
-.team-grid-modern {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
-}
+
 
 .team-card-modern {
   background: #ffffff;
-  border-radius: 0;
+  border-radius: var(--nl-radius);
   border: 2px solid #d1d1d6;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -283,12 +278,12 @@
 
 .team-card-modern:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
 }
 
 .team-image-modern {
   width: 100%;
-  height: 280px;
+  aspect-ratio: 1 / 1.1;
   overflow: hidden;
 }
 
@@ -307,7 +302,7 @@
   padding: 4px 12px;
   background: #f0f4f1;
   color: #2c2c2e;
-  border-radius: 0;
+  border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -336,7 +331,7 @@
   padding: 10px 20px;
   background: transparent;
   border: 2px solid #d1d1d6;
-  border-radius: 0;
+  border-radius: 999px;
   color: #2c2c2e;
   font-weight: 600;
   cursor: pointer;
@@ -344,6 +339,7 @@
   width: 100%;
   justify-content: center;
 }
+
 
 .team-contact-modern:hover {
   background: #2c2c2e;
@@ -358,11 +354,7 @@
   color: #ffffff;
 }
 
-.expertise-grid-modern {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-}
+
 
 .expertise-item-modern {
   text-align: center;
@@ -456,46 +448,22 @@
   margin-right: auto;
 }
 
-/* Responsive */
+/* Responsive Cleanup */
 @media (max-width: 1024px) {
-  .dual-grid-modern,
-  .timeline-wrapper-modern,
-  .principles-grid-modern,
-  .team-grid-modern,
-  .expertise-grid-modern {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
   .hero-title-modern {
     font-size: 2.5rem;
   }
 }
 
 @media (max-width: 768px) {
-  .hero-modern {
-    padding: 80px 0 60px;
-  }
-  
-  .hero-title-modern {
-    font-size: 2rem;
-  }
-  
-  .dual-grid-modern,
-  .timeline-wrapper-modern,
-  .principles-grid-modern,
-  .team-grid-modern,
-  .expertise-grid-modern {
-    grid-template-columns: 1fr;
-  }
-  
   .dual-card-modern {
     padding: 30px;
   }
-  
+
   .cta-card-modern {
     padding: 50px 30px;
   }
-  
+
   .cta-title-modern {
     font-size: 1.8rem;
   }
@@ -511,8 +479,8 @@
 
 .services-layout-modern {
   display: grid;
-  grid-template-columns: 350px 1fr;
-  gap: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+  gap: clamp(2rem, 5vw, 4rem);
 }
 
 .services-nav-modern {
@@ -599,7 +567,7 @@
 .service-image-overlay-modern {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
 }
 
 .service-content-modern {
@@ -700,13 +668,13 @@
   .services-layout-modern {
     grid-template-columns: 1fr;
   }
-  
+
   .services-nav-modern {
     flex-direction: row;
     overflow-x: auto;
     gap: 8px;
   }
-  
+
   .service-nav-item-modern {
     min-width: 200px;
   }
@@ -716,12 +684,12 @@
   .service-content-modern {
     padding: 24px;
   }
-  
+
   .service-header-modern {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .service-title-large-modern {
     font-size: 1.5rem;
   }
@@ -811,7 +779,7 @@
 
 .terrain-card-modern:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
   border-color: #2c2c2e;
 }
 
@@ -941,7 +909,7 @@
   .terrains-grid-modern {
     grid-template-columns: 1fr;
   }
-  
+
   .filter-bar-modern {
     flex-direction: column;
     align-items: flex-start;
@@ -1004,7 +972,7 @@
 
 .project-card-modern:hover {
   transform: translateY(-8px);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
   border-color: #2c2c2e;
 }
 
@@ -1154,7 +1122,7 @@
   .projects-grid-modern {
     grid-template-columns: 1fr;
   }
-  
+
   .stats-grid-modern {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1164,7 +1132,7 @@
   .stats-grid-modern {
     grid-template-columns: 1fr;
   }
-  
+
   .stat-number-modern {
     font-size: 2.5rem;
   }
@@ -1191,7 +1159,7 @@
 }
 
 .featured-article-modern:hover {
-  box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
   border-color: #2c2c2e;
 }
 
@@ -1308,7 +1276,7 @@
 
 .article-card-modern:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
   border-color: #2c2c2e;
 }
 
@@ -1441,11 +1409,11 @@
   .featured-article-modern {
     grid-template-columns: 1fr;
   }
-  
+
   .featured-content-modern {
     padding: 40px;
   }
-  
+
   .articles-grid-modern {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1455,15 +1423,15 @@
   .articles-grid-modern {
     grid-template-columns: 1fr;
   }
-  
+
   .newsletter-card-modern {
     padding: 40px 24px;
   }
-  
+
   .newsletter-form-modern {
     flex-direction: column;
   }
-  
+
   .featured-title-modern {
     font-size: 1.8rem;
   }
@@ -1666,7 +1634,7 @@
   .contact-info-grid-modern {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .contact-layout-modern {
     grid-template-columns: 1fr;
   }
@@ -1676,16 +1644,54 @@
   .contact-info-grid-modern {
     grid-template-columns: 1fr;
   }
-  
+
   .contact-form-wrapper-modern {
     padding: 30px 24px;
   }
-  
+
   .form-row-modern {
     grid-template-columns: 1fr;
   }
-  
+
   .form-title-modern {
     font-size: 1.6rem;
   }
+}
+
+/* ── LEGAL DOCUMENT LAYOUT (Sommaire + Sections) ── */
+@media (max-width: 991px) {
+  .legal-doc-layout {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+  
+  .legal-doc-sidebar {
+    position: static !important;
+    width: 100% !important;
+  }
+}
+
+.legal-doc-sidebar nav button {
+  position: relative;
+  padding-left: 0;
+  transition: all 0.3s ease;
+}
+
+.legal-doc-sidebar nav button::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: var(--nl-turquoise);
+  transition: width 0.3s ease;
+}
+
+.legal-doc-sidebar nav button:hover {
+  padding-left: 8px;
+}
+
+.legal-doc-sidebar nav button:hover::before {
+  width: 20px;
 }

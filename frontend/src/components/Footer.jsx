@@ -1,9 +1,29 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiFacebook, FiInstagram, FiLinkedin, FiMail, FiMapPin, FiPhone } from 'react-icons/fi';
 import { FaPinterestP, FaTiktok } from 'react-icons/fa6';
-import { company, contactInfo, socialLinks } from '../data/companyData';
+import { company as fallbackCompany, contactInfo as fallbackContactInfo, socialLinks as fallbackSocialLinks } from '../data/companyData';
+import { getCompanyInfo, getContactInfo, getSocialLinks } from '../services/api';
 
 export default function Footer() {
+  const [company, setCompany] = useState(fallbackCompany);
+  const [contactInfo, setContactInfo] = useState(fallbackContactInfo);
+  const [socialLinks, setSocialLinks] = useState(fallbackSocialLinks);
+
+  useEffect(() => {
+    getCompanyInfo().then((res) => setCompany(res.data || fallbackCompany)).catch(() => setCompany(fallbackCompany));
+    getContactInfo().then((res) => setContactInfo(res.data.length ? res.data : fallbackContactInfo)).catch(() => setContactInfo(fallbackContactInfo));
+    getSocialLinks()
+      .then((res) => {
+        const mapped = { ...fallbackSocialLinks };
+        res.data.forEach((item) => {
+          mapped[item.platform] = item.url;
+        });
+        setSocialLinks(mapped);
+      })
+      .catch(() => setSocialLinks(fallbackSocialLinks));
+  }, []);
+
   return (
     <footer className="nl-footer">
       <div className="nl-footer-upper">
@@ -11,10 +31,9 @@ export default function Footer() {
           <div className="nl-footer-main-grid">
             <div className="nl-footer-brand-box">
               <Link to="/" className="nl-footer-logo-link">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M12 2C9 6 6 7 6 10c0 2 1.5 3.5 3 4.5V22h6v-7.5c1.5-1 3-2.5 3-4.5 0-3-3-4-6-8z" />
-                </svg>
-                <span className="nl-brand-name">{company.name}</span>
+                <div className="nl-footer-logo-wrapper">
+                  <img src="/images/logo_immobilier.png" alt="Immobilier Pluriel" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+                </div>
               </Link>
               <p className="nl-footer-description">
                 Expert en aménagement foncier et promotion immobilière. Nous bâtissons les fondations de vos projets de vie avec rigueur et vision à long terme.
@@ -44,8 +63,9 @@ export default function Footer() {
                 <nav>
                   <Link to="/news">Actualités</Link>
                   <Link to="/contact">Contactez-nous</Link>
-                  <Link to="/faq">Questions fréquentes</Link>
+                  <Link to="/team">Notre équipe</Link>
                   <Link to="/legal">Mentions légales</Link>
+                  <Link to="/privacy">Politique de confidentialité</Link>
                 </nav>
               </div>
             </div>
@@ -57,21 +77,34 @@ export default function Footer() {
                   <div className="nl-contact-icon"><FiMapPin /></div>
                   <div className="nl-contact-text">
                     <strong>Adresse</strong>
-                    <span>{contactInfo.find((i) => i.label === 'Adresse')?.value}</span>
+                    <a
+                      href="https://www.google.com/maps/search/Yamoussoukro+Quartier+Millionnaire"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="nl-footer-map-link"
+                    >
+                      {contactInfo.find((i) => i.label === 'Adresse')?.value}
+                    </a>
                   </div>
                 </div>
                 <div className="nl-contact-item">
                   <div className="nl-contact-icon"><FiPhone /></div>
                   <div className="nl-contact-text">
                     <strong>Téléphone</strong>
-                    <span>{contactInfo.find((i) => i.label === 'Téléphone')?.value}</span>
+                    {(() => {
+                      const val = contactInfo.find((i) => i.label === 'Téléphone' || i.label === 'Telephone')?.value;
+                      return val ? <a href={`tel:${val.replace(/\s+/g, '')}`}>{val}</a> : <span>-</span>;
+                    })()}
                   </div>
                 </div>
                 <div className="nl-contact-item">
                   <div className="nl-contact-icon"><FiMail /></div>
                   <div className="nl-contact-text">
                     <strong>Email</strong>
-                    <span>{contactInfo.find((i) => i.label === 'Email')?.value}</span>
+                    {(() => {
+                      const val = contactInfo.find((i) => i.label === 'Email')?.value;
+                      return val ? <a href={`mailto:${val}`}>{val}</a> : <span>-</span>;
+                    })()}
                   </div>
                 </div>
               </div>

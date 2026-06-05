@@ -2,15 +2,15 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export default function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth',
+      behavior: 'instant', // Changé en 'instant' pour éviter l'effet bizarre pendant la pagination
     });
-  }, [pathname]);
+  }, [pathname, search]); // Ajout de search pour scroller en haut lors du changement de page
 
   return null;
 }

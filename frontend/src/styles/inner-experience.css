@@ -10,44 +10,30 @@
   max-width: var(--nl-max);
   margin: 0 auto;
   padding: 0 var(--nl-gutter);
+  width: 100%;
 }
 
 /* ── Hero page ── */
 .ix-hero {
   position: relative;
-  padding: calc(var(--nl-header-h) + 48px) var(--nl-gutter) 56px;
+  padding: calc(var(--nl-header-h) + clamp(2rem, 8vw, 4rem)) var(--nl-gutter) clamp(2rem, 6vw, 3.5rem);
   background: var(--nl-white);
   overflow: hidden;
 }
 
-.ix-hero::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: var(--nl-gutter);
-  right: var(--nl-gutter);
-  height: 1px;
-  background: linear-gradient(90deg, var(--nl-turquoise), transparent 70%);
-}
-
-.ix-hero .ix-wrap {
-  position: relative;
-  z-index: 1;
-}
-
 .ix-hero h1 {
-  font-size: clamp(2rem, 4.5vw, 3rem);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  max-width: 18ch;
-  margin-bottom: 16px;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  max-width: 25ch;
+  margin-bottom: 1.2rem;
   color: var(--nl-text);
 }
 
 .ix-hero .ix-lead {
-  font-size: 1.05rem;
-  line-height: 1.75;
-  max-width: 52ch;
+  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+  line-height: 1.6;
+  max-width: 65ch;
   color: var(--nl-text-muted);
 }
 
@@ -58,19 +44,29 @@
 /* ── Bandes services (alternées) ── */
 .ix-band {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: min(420px, 50vh);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 450px), 1fr));
+  min-height: clamp(300px, 40vh, 500px);
   border-bottom: 1px solid rgba(26, 61, 50, 0.08);
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 0;
 }
 
 .ix-band--flip .ix-band-visual {
   order: 2;
 }
 
+@media (max-width: 1024px) {
+  .ix-band--flip .ix-band-visual {
+    order: -1;
+  }
+}
+
 .ix-band-visual {
   position: relative;
   overflow: hidden;
   min-height: 280px;
+  background: #f0f0f0;
 }
 
 .ix-band-visual img {
@@ -98,6 +94,7 @@
   justify-content: center;
   gap: 14px;
   background: var(--nl-white);
+  min-height: 280px;
 }
 
 .ix-band--alt .ix-band-copy {
@@ -119,7 +116,6 @@
 .ix-band-example {
   margin: 8px 0 0;
   padding-left: 16px;
-  border-left: 3px solid var(--nl-turquoise);
   font-size: 0.85rem;
   line-height: 1.65;
   color: var(--nl-text);
@@ -260,10 +256,11 @@
   color: var(--nl-white);
 }
 
+/* ── Mur parcelles (terrains) ── */
 .ix-parcel-wall {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: clamp(14px, 2vw, 20px);
+  gap: clamp(14px, 2vw, 22px);
   padding-bottom: clamp(56px, 8vw, 88px);
 }
 
@@ -275,6 +272,8 @@
   overflow: hidden;
   text-decoration: none;
   color: inherit;
+  border-radius: 0;
+  box-shadow: var(--nl-shadow);
 }
 
 .ix-parcel:nth-child(6n + 1) {
@@ -282,12 +281,26 @@
   aspect-ratio: 21 / 9;
 }
 
-.ix-parcel:nth-child(6n + 4) {
+.ix-parcel:nth-child(6n + 4),
+.ix-parcel:nth-child(6n + 5) {
   grid-column: span 6;
 }
 
-.ix-parcel:nth-child(6n + 5) {
-  grid-column: span 6;
+@media (max-width: 1024px) {
+
+  .ix-parcel,
+  .ix-parcel:nth-child(n) {
+    grid-column: span 6;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 640px) {
+
+  .ix-parcel,
+  .ix-parcel:nth-child(n) {
+    grid-column: span 12;
+  }
 }
 
 .ix-parcel img {
@@ -413,47 +426,84 @@
   gap: clamp(24px, 4vw, 40px);
 }
 
+/* ── Timeline (Modern Style) ── */
 .ix-scroll-years {
   display: flex;
-  gap: clamp(20px, 3vw, 32px);
-  overflow-x: auto;
-  padding: 8px 0 24px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 60px;
+  position: relative;
+  padding-left: 40px;
 }
 
-.ix-scroll-years::-webkit-scrollbar {
-  height: 4px;
-}
-
-.ix-scroll-years::-webkit-scrollbar-thumb {
-  background: var(--nl-turquoise);
+.ix-scroll-years::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--nl-turquoise) 0%, rgba(62, 184, 176, 0.1) 100%);
 }
 
 .ix-year-card {
-  flex: 0 0 min(280px, 75vw);
-  scroll-snap-align: start;
-  padding: 28px 24px;
+  position: relative;
+  padding: 0 0 60px 40px;
+  background: transparent;
+  border: none;
+  flex: none;
+}
+
+.ix-year-card::after {
+  content: '';
+  position: absolute;
+  left: -44px;
+  top: 0;
+  width: 10px;
+  height: 10px;
   background: var(--nl-white);
-  border-top: 3px solid var(--nl-turquoise);
+  border: 3px solid var(--nl-turquoise);
+  border-radius: 50%;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.ix-year-card:hover::after {
+  transform: scale(1.5);
+  background: var(--nl-turquoise);
 }
 
 .ix-year-card strong {
   display: block;
-  font-size: 1.75rem;
-  color: var(--nl-forest);
-  margin-bottom: 12px;
+  font-size: 2.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  color: var(--nl-turquoise);
+  line-height: 1;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.ix-year-card:hover strong {
+  transform: translateX(10px);
 }
 
 .ix-year-card h3 {
-  font-size: 1rem;
-  margin-bottom: 8px;
+  font-size: 1.4rem;
+  color: var(--nl-white);
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .ix-year-card p {
-  font-size: 0.85rem;
-  margin: 0;
-  max-width: none;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+.ix-chapter--dark .ix-year-card h3 {
+  color: var(--nl-white);
 }
 
 .ix-principles {
@@ -478,54 +528,86 @@
   color: var(--nl-white);
 }
 
+/* ── Team Grid (New Style) ── */
 .ix-team-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(16px, 2vw, 24px);
-  margin-top: 32px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
 }
 
 .ix-team-card {
+  position: relative;
   background: var(--nl-white);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ix-team-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.ix-team-card-img {
+  position: relative;
+  aspect-ratio: 4/5;
   overflow: hidden;
 }
 
-.ix-team-card img {
+.ix-team-card-img img {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  height: 100%;
   object-fit: cover;
-  filter: grayscale(15%);
-  transition: filter 0.35s ease;
+  transition: transform 0.6s ease;
 }
 
-.ix-team-card:hover img {
-  filter: none;
+.ix-team-card:hover .ix-team-card-img img {
+  transform: scale(1.05);
 }
 
-.ix-team-card div {
-  padding: 16px 14px 20px;
+.ix-team-card-info {
+  padding: 24px;
+  background: linear-gradient(to top, var(--nl-forest-dark) 0%, rgba(15, 36, 32, 0.8) 50%, transparent 100%);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: var(--nl-white);
+  transform: translateY(60px);
+  transition: transform 0.4s ease;
 }
 
-.ix-team-card h3 {
-  font-size: 0.92rem;
+.ix-team-card:hover .ix-team-card-info {
+  transform: translateY(0);
+}
+
+.ix-team-card-info h3 {
+  font-size: 1.25rem;
   margin-bottom: 4px;
+  color: var(--nl-white);
 }
 
-.ix-team-card span {
+.ix-team-card-info span {
   display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--nl-turquoise);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
 }
 
-.ix-team-card p {
-  font-size: 0.78rem;
-  margin: 0;
-  max-width: none;
-  color: var(--nl-text-muted);
+.ix-team-card-info p {
+  font-size: 0.88rem;
+  line-height: 1.4;
+  opacity: 0;
+  transition: opacity 0.3s ease 0.1s;
+}
+
+.ix-team-card:hover .ix-team-card-info p {
+  opacity: 1;
 }
 
 /* ── Contact split ── */
@@ -623,6 +705,32 @@
   color: var(--nl-forest);
   font-weight: 600;
   font-size: 0.9rem;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.ix-form-status--success {
+  background-color: #f0fdf4;
+  color: #166534;
+}
+
+.ix-form-status--error {
+  background-color: #fef2f2;
+  color: #991b1b;
+}
+
+.ix-contact-map {
+  margin-top: 60px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  height: 450px;
+}
+
+.ix-contact-map iframe {
+  filter: grayscale(0.2) contrast(1.1);
 }
 
 /* ── Fil actualités ── */
@@ -722,29 +830,48 @@
 
 /* ── Mur portfolio ── */
 .ix-wall {
-  columns: 3;
-  column-gap: clamp(16px, 2vw, 22px);
-  padding: clamp(40px, 6vw, 56px) 0 clamp(56px, 8vw, 88px);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: clamp(1rem, 2vw, 2rem);
+  padding: clamp(2rem, 6vw, 4rem) 0;
 }
 
 .ix-wall-item {
-  break-inside: avoid;
-  margin-bottom: clamp(16px, 2vw, 22px);
   display: block;
   position: relative;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
+  border-radius: 0;
 }
 
 .ix-wall-item img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
   transition: transform 0.5s ease;
 }
 
 .ix-wall-item:hover img {
-  transform: scale(1.03);
+  transform: scale(1.05);
+}
+
+.ix-wall-video-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(62, 184, 176, 0.9);
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .ix-wall-cap {
@@ -753,11 +880,11 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 20px;
-  background: linear-gradient(transparent 40%, rgba(15, 36, 32, 0.88));
-  color: var(--nl-white);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 60%);
+  color: #ffffff;
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: all 0.4s ease;
 }
 
 .ix-wall-item:hover .ix-wall-cap {
@@ -765,177 +892,29 @@
 }
 
 .ix-wall-cap span {
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0.8;
-  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 4px;
+  font-weight: 700;
 }
 
 .ix-wall-cap h3 {
-  font-size: 1rem;
-  line-height: 1.3;
-}
-
-/* ── Dossier (détails) ── */
-.ix-dossier {
-  padding-bottom: clamp(56px, 8vw, 88px);
-}
-
-.ix-dossier-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin: clamp(24px, 4vw, 36px) 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--nl-forest);
-  text-decoration: none;
-}
-
-.ix-dossier-back:hover {
-  color: var(--nl-turquoise);
-}
-
-.ix-dossier-cover {
-  width: 100%;
-  aspect-ratio: 21 / 9;
-  overflow: hidden;
-  margin-bottom: clamp(32px, 5vw, 48px);
-}
-
-.ix-dossier-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.ix-dossier-layout {
-  display: grid;
-  grid-template-columns: 1fr minmax(260px, 320px);
-  gap: clamp(32px, 5vw, 56px);
-  align-items: start;
-}
-
-.ix-dossier-content {
-  font-size: 1.02rem;
-  line-height: 1.85;
-  color: var(--nl-text);
-}
-
-.ix-dossier-content p {
-  margin-bottom: 1.2em;
-}
-
-.ix-dossier-aside {
-  position: sticky;
-  top: calc(var(--nl-header-h) + 24px);
-  padding: 28px;
-  background: var(--nl-white);
-  border-left: 3px solid var(--nl-turquoise);
-}
-
-.ix-dossier-aside h3 {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--nl-text-muted);
-  margin-bottom: 16px;
-}
-
-.ix-dossier-facts {
-  list-style: none;
-  margin: 0 0 20px;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  font-size: 0.88rem;
-}
-
-.ix-dossier-facts li {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.ix-dossier-facts svg {
-  color: var(--nl-turquoise);
-}
-
-.ix-dossier-price {
-  display: block;
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--nl-forest);
-  margin-bottom: 20px;
-}
-
-.ix-checklist {
-  list-style: none;
-  margin: 20px 0 0;
-  padding: 0;
-}
-
-.ix-checklist li {
-  display: flex;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(26, 61, 50, 0.08);
-  font-size: 0.9rem;
-}
-
-.ix-checklist svg {
-  color: var(--nl-turquoise);
-  flex-shrink: 0;
-  margin-top: 3px;
-}
-
-.ix-highlight {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 24px;
-  padding: 16px 20px;
-  background: rgba(168, 213, 186, 0.35);
-  font-weight: 600;
-  color: var(--nl-forest);
-}
-
-.ix-empty {
-  text-align: center;
-  padding: 64px var(--nl-gutter);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.2;
+  color: #ffffff;
+  font-weight: 700;
 }
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
 
-  .ix-band,
   .ix-duo,
   .ix-contact,
   .ix-feed-hero,
   .ix-dossier-layout {
     grid-template-columns: 1fr;
-  }
-
-  .ix-band--flip .ix-band-visual {
-    order: 0;
-  }
-
-  .ix-parcel,
-  .ix-parcel:nth-child(6n + 1),
-  .ix-parcel:nth-child(6n + 4),
-  .ix-parcel:nth-child(6n + 5) {
-    grid-column: span 6;
-    aspect-ratio: 16 / 10;
-  }
-
-  .ix-team-row {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .ix-wall {
-    columns: 2;
   }
 
   .ix-feed-item {
@@ -945,23 +924,32 @@
 
   .ix-dossier-aside {
     position: static;
+    border-top: 3px solid var(--nl-turquoise);
   }
 }
 
 @media (max-width: 640px) {
 
-  .ix-parcel,
-  .ix-parcel:nth-child(6n + 1),
-  .ix-parcel:nth-child(6n + 4),
-  .ix-parcel:nth-child(6n + 5) {
-    grid-column: span 12;
-  }
-
+  .ix-parcel-wall,
+  .ix-wall,
   .ix-team-row {
     grid-template-columns: 1fr;
   }
 
-  .ix-wall {
-    columns: 1;
+  .ix-hero {
+    padding-top: calc(var(--nl-header-h) + 2rem);
+  }
+}
+
+
+/* Animation pour le message de statut du formulaire */
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

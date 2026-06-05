@@ -13,6 +13,7 @@ import './styles/animations.css'
 import './styles/inner-pages.css'
 import './styles/home-sections.css'
 import './styles/inner-experience.css'
+import './styles/pages/detail-pages.css'
 
 import App from './App.jsx'
 

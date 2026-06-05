@@ -3,11 +3,11 @@ export const company = {
   shortName: 'Savane',
   tagline: "Une grande entreprise qui aménage, construit et valorise le territoire.",
   description:
-    "Immobilier Pluriel accompagne les collectivités, les promoteurs et les particuliers sur tout le cycle de vie d'un projet: étude, lotissement, voirie, terrains, bâtiments, hôtellerie et activités agro-industrielles.",
+    "Immobilier Pluriel transforme des visions en projets concrets grâce à une expertise intégrée couvrant le foncier, l’aménagement, la construction et le développement d’infrastructures durables.",
 };
 
 export const stats = [
-  { value: '8', label: 'grands services intégrés' },
+  { value: '8', label: 'Services intégrés' },
   { value: '120+', label: 'projets accompagnés' },
   { value: '24', label: 'mois de suivi chantier' },
   { value: '4', label: 'pôles régionaux actifs' },
@@ -18,7 +18,7 @@ export const visionStats = [
   { value: '17', suffix: '+', label: "Années d'expérience", hint: 'Depuis 2009' },
   { value: '120', suffix: '+', label: 'Projets accompagnés', hint: 'Foncier à agro-industrie' },
   { value: '850', suffix: '+', label: 'Hectares structurés', hint: 'Lotissements & VRD' },
-  { value: '4', suffix: '', label: 'Pôles régionaux', hint: 'Afrique de l\'Ouest' },
+  { value: '8', suffix: '', label: "Pôles d'expertise", hint: 'Expertises intégrées' },
 ];
 
 /** Citation dirigeante — section vision */
@@ -26,81 +26,81 @@ export const visionQuote = {
   text: "Notre rôle n'est pas seulement de vendre du foncier : nous concevons des territoires viables, avec des réseaux, des délais tenus et une valeur durable pour les habitants comme pour les investisseurs.",
   author: 'Awa Traoré',
   role: 'Directrice générale, Immobilier Pluriel',
-  image: '/images/photo-88b8a35b.jpg',
+  image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
 };
 
 export const services = [
   {
-    title: 'Lotissement',
-    summary: "Transformer un grand terrain vide en un quartier organisé avec des routes, de l'électricité et de l'eau.",
+    title: 'Lotissement & Urbanisme',
+    summary: "Transformer des terres brutes en quartiers résidentiels structurés et viabilisés.",
     example:
-      "Sur un champ de 10 hectares, nous traçons les rues, installons les réseaux (eau/élec), délimitons les parcelles et les vendons aux particuliers.",
-    result: 'Un nouveau quartier structuré prêt à accueillir des maisons individuelles.',
+      "Sur une zone de 20 hectares, nous concevons le plan de masse, réalisons le terrassement et installons les réseaux avant la mise en vente.",
+    result: 'Des espaces de vie organisés, sécurisés et prêts pour la construction.',
     icon: 'lotissement',
-    image: '/images/photo-8e3d6936.jpg',
+    image: '/images/services/lotissement.jpg',
   },
   {
-    title: "Ouverture de voies",
-    summary: 'Créer des routes et des chemins là où il n’y en avait pas pour désenclaver les zones.',
+    title: "Aménagement Foncier",
+    summary: 'Valorisation de grandes réserves foncières pour des projets d’envergure.',
     example:
-      "Pour un village isolé, nous traçons une route de 10 km, construisons les ponts nécessaires et installons signalisation et éclairage public.",
-    result: 'Une circulation fluide et un accès sécurisé pour les habitants et les entreprises.',
-    icon: 'voirie',
-    image: '/images/photo-988dab1e.jpg',
-  },
-  {
-    title: 'Vente de terrains',
-    summary: 'Acheter, préparer et revendre des terrains sécurisés pour tous types de projets.',
-    example:
-      "Nous proposons des terrains résidentiels pour votre maison, commerciaux pour vos bureaux ou industriels pour vos usines.",
-    result: 'Des terrains prêts à construire avec eau et électricité déjà installées.',
+      "Nous préparons des plateformes industrielles ou commerciales avec un ensoleillement et une orientation optimisés.",
+    result: 'Des terrains à fort potentiel de valorisation pour investisseurs.',
     icon: 'terrain',
-    image: '/images/photo-e967be6b.jpg',
+    image: '/images/services/terrain.jpg',
   },
   {
-    title: 'Hôtellerie',
-    summary: 'Conception, construction intégrale et gestion de complexes hôteliers de standing.',
+    title: 'Génie Civil & Structure',
+    summary: 'Mise en œuvre de structures robustes pour tout type de bâtiment.',
     example:
-      "Pour un hôtel 4 étoiles, nous réalisons les plans, la construction, l'aménagement des chambres et la formation du personnel.",
-    result: 'Un établissement de luxe (120 chambres, piscine, restaurant) livré clé en main.',
-    icon: 'hotel',
-    image: '/images/photo-0aa5a48b.jpg',
-  },
-  {
-    title: 'Construction métallique',
-    summary: 'Réaliser des bâtiments robustes à structure métallique pour un montage rapide.',
-    example:
-      "Nous fabriquons et assemblons des poutres métalliques pour créer des entrepôts géants ou des bâtiments industriels solides.",
-    result: 'Des structures industrielles durables livrées dans des délais records.',
+      "Nos équipes assurent le ferraillage et le coulage de dalles haute résistance pour des complexes industriels.",
+    result: 'Une solidité structurelle garantie pour des ouvrages durables.',
     icon: 'metal',
-    image: '/images/photo-f506c554.jpg',
+    image: '/images/services/metal.jpg',
   },
   {
-    title: 'Élevage et Agriculture',
-    summary: 'Créer des fermes modernes et des unités de transformation agro-industrielles.',
+    title: 'Hôtellerie de Standing',
+    summary: 'Conception architecturale et réalisation de complexes touristiques haut de gamme.',
     example:
-      "Installation de poulaillers automatiques pour 10 000 poules ou de serres de tomates avec irrigation intelligente et usine de concentré.",
-    result: 'Une exploitation ultra-moderne maximisant la production et la rentabilité.',
-    icon: 'farm',
-    image: '/images/photo-a0ec71c8.jpg',
+      "Réalisation de resorts with espaces de détente, piscines olympiques et finitions de luxe.",
+    result: 'Des établissements prestigieux livrés avec un souci du détail architectural.',
+    icon: 'hotel',
+    image: '/images/services/hotel.jpg',
   },
   {
-    title: 'Agroalimentaire et Transport',
-    summary: 'Logistique, conservation et transformation des produits agricoles.',
+    title: 'Logistique & Entreposage',
+    summary: 'Gestion intelligente des espaces de stockage et des flux de marchandises.',
     example:
-      "Nous gérons des camions de transport, des entrepôts frigorifiques et des usines de transformation (jus, conserves).",
-    result: 'Une chaîne de valeur optimisée permettant de vendre plus loin et de conserver plus longtemps.',
+      "Mise en place de plateformes de distribution modernes avec rayonnages optimisés et gestion informatisée.",
+    result: 'Une chaîne logistique fluide et un stockage sécurisé à grande échelle.',
     icon: 'truck',
-    image: '/images/photo-c5bc98d7.jpg',
+    image: '/images/services/truck.jpg',
   },
   {
-    title: 'Formations BTP',
-    summary: 'Former les futurs talents aux métiers de la construction et des travaux publics.',
+    title: 'Développement Agro-industriel',
+    summary: 'Création d’exploitations agricoles modernes et durables.',
     example:
-      "Apprentissage de la lecture de plans, de la fabrication du béton et de l'utilisation des outils de chantier professionnels.",
-    result: 'Des travailleurs qualifiés et certifiés prêts à construire selon les normes.',
-    icon: 'training',
-    image: '/images/photo-bd8d86a0.jpg',
+      "Mise en place de pépinières et de systèmes de culture irrigués pour une production constante.",
+    result: 'Des projets agricoles rentables utilisant les meilleures techniques de culture.',
+    icon: 'farm',
+    image: '/images/services/farm.jpg',
+  },
+  {
+    title: 'Études & Ingénierie',
+    summary: 'Bureau d’études techniques pour la conception et le suivi de vos projets.',
+    example:
+      "Élaboration de plans de structure, calculs de charge et suivi de conformité sur chantier.",
+    result: 'Une expertise technique pointue pour sécuriser chaque étape de vos travaux.',
+    icon: 'formation',
+    image: '/images/services/formation.jpg',
+  },
+  {
+    title: 'Voirie & Réseaux (VRD)',
+    summary: 'Réalisation des infrastructures routières et des réseaux d’assainissement.',
+    example:
+      "Ouverture de voies bitumées, installation de caniveaux de drainage et réseaux d'eau potable.",
+    result: 'Des zones parfaitement desservies et protégées contre les intempéries.',
+    icon: 'voirie',
+    image: '/images/services/image.jfif',
   },
 ];
 
@@ -110,28 +110,28 @@ export const team = [
     role: 'Directrice Générale',
     bio: 'Pilote la stratégie, les grands comptes et les partenariats institutionnels.',
     image:
-      '/images/photo-88b8a35b.jpg',
+      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
   },
   {
     name: 'Moussa Koné',
     role: 'Directeur Technique',
     bio: 'Supervise les études, les chantiers, les lots VRD et les ouvrages complexes.',
     image:
-      '/images/photo-6e27cc9a.jpg',
+      'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
   },
   {
     name: 'Fatou Diallo',
     role: 'Responsable Aménagement',
     bio: 'Coordonne les lotissements, les plans d ensemble et la relation avec les collectivités.',
     image:
-      '/images/photo-15e1bebe.jpg',
+      'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
   },
   {
     name: 'Issa Bamba',
     role: 'Responsable Développement',
     bio: 'Développe les projets terrains, hôtellerie et solutions agro-industrielles.',
     image:
-      '/images/photo-356bd4ad.jpg',
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
   },
 ];
 
@@ -156,8 +156,9 @@ export const projects = [
     results: [
       "Sécurité foncière garantie"
     ],
-    image: '/images/photo-1f844f07.jpg',
-    gallery: ['/images/photo-1f844f07.jpg', '/images/photo-048f5b05.jpg', '/images/photo-3299f3b7.jpg']
+    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Exemple de vidéo
+    gallery: ['https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80']
   },
   {
     id: 'route-koudougou',
@@ -166,6 +167,7 @@ export const projects = [
     category: 'Ouverture de voies',
     year: '2024',
     highlight: '10 km de route',
+    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Exemple de vidéo
     description:
       'Une voie principale et des accès secondaires pour reconnecter une zone rurale au réseau économique.',
     longDescription:
@@ -181,8 +183,8 @@ export const projects = [
       "Accès facilité pour 5 000 villageois",
       "Augmentation des échanges commerciaux locaux"
     ],
-    image: '/images/photo-c1858343.jpg',
-    gallery: ['/images/photo-c1858343.jpg', '/images/photo-988dab1e.jpg']
+    image: 'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=1200&q=80',
+    gallery: ['https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=1200&q=80']
   },
   {
     id: 'savane-prestige',
@@ -206,8 +208,9 @@ export const projects = [
       "Création de 80 emplois directs",
       "Taux d'occupation moyen de 75% dès l'ouverture"
     ],
-    image: '/images/photo-b9fd75e4.jpg',
-    gallery: ['/images/photo-b9fd75e4.jpg', '/images/photo-0aa5a48b.jpg', '/images/photo-ceb2d617.jpg']
+    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
+    gallery: ['https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80']
   },
   {
     id: 'plateforme-agro',
@@ -216,6 +219,7 @@ export const projects = [
     category: 'Agroalimentaire',
     year: '2024',
     highlight: 'Chaîne du froid intégrée',
+    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     description:
       'Un ensemble de stockage, transformation et transport pour relier les exploitations aux marchés.',
     longDescription:
@@ -231,8 +235,8 @@ export const projects = [
       "Capacité de stockage de 5 000 tonnes",
       "Lien direct créé avec les marchés export"
     ],
-    image: '/images/photo-9672ebc8.jpg',
-    gallery: ['/images/photo-9672ebc8.jpg', '/images/photo-c5bc98d7.jpg', '/images/photo-a8296063.jpg']
+    image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1200&q=80',
+    gallery: ['https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1200&q=80']
   },
   {
     id: 'hangar-industriel',
@@ -256,9 +260,51 @@ export const projects = [
       "Espace de stockage optimisé à 100%",
       "Conformité totale aux normes de sécurité incendie"
     ],
-    image: '/images/photo-bc912566.jpg',
-    gallery: ['/images/photo-bc912566.jpg', '/images/photo-f506c554.jpg']
+    image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80',
+    gallery: ['https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80']
   },
+  {
+    id: 'residence-savane',
+    title: 'Résidence Savane Parc',
+    location: 'Abidjan',
+    category: 'Immobilier',
+    year: '2025',
+    highlight: '24 appartements F4',
+    description: 'Un complexe résidentiel moderne alliant confort et sécurité.',
+    longDescription: "La résidence Savane Parc propose des appartements haut de gamme dans un cadre verdoyant et sécurisé.",
+    keyFeatures: ["Ascenseurs haut débit", "Piscine commune", "Parking sous-sol", "Sécurité 24h/24"],
+    results: ["100% vendu avant livraison"],
+    image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80',
+    gallery: ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80']
+  },
+  {
+    id: 'centre-commercial',
+    title: 'Grand Centre Savane Mall',
+    location: 'Bouaké',
+    category: 'Commerce',
+    year: '2026',
+    highlight: '50 boutiques',
+    description: 'Le plus grand centre commercial de la région.',
+    longDescription: "Un espace shopping et loisirs moderne pour dynamiser l'économie locale.",
+    keyFeatures: ["Food court", "Supermarché", "Cinéma", "Zone de jeux"],
+    results: ["Création de 200 emplois"],
+    image: 'https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?auto=format&fit=crop&w=1200&q=80',
+    gallery: ['https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?auto=format&fit=crop&w=1200&q=80']
+  },
+  {
+    id: 'ferme-moderne',
+    title: 'Ferme Avicole Intégrée',
+    location: 'Yamoussoukro',
+    category: 'Agriculture',
+    year: '2025',
+    highlight: '50 000 têtes',
+    description: 'Une unité de production avicole automatisée.',
+    longDescription: "Une ferme utilisant les dernières technologies pour une production de qualité.",
+    keyFeatures: ["Alimentation automatisée", "Contrôle climatique", "Abattoir aux normes"],
+    results: ["Leader régional en production d'œufs"],
+    image: 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1200&q=80',
+    gallery: ['https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1200&q=80']
+  }
 ];
 
 export const news = [
@@ -268,11 +314,11 @@ export const news = [
     category: 'Aménagement',
     author: 'Direction Technique',
     date: '15 Mai 2026',
-    image: '/images/photo-048f5b05.jpg',
+    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
     excerpt:
       'Immobilier Pluriel démarre un projet de quartier moderne avec voirie, assainissement et éclairage public.',
     content: `
-      <p>Nous avons le plaisir d'annoncer le lancement officiel de notre nouveau projet de lotissement d'envergure, s'étendant sur plus de 45 hectares. Ce projet ambitieux, baptisé "Horizon Sud", vise à créer un nouveau pôle de vie moderne et structuré, répondant à la demande croissante en logements de qualité.</p>
+      <p>Nous avons le plaisir d'annoncer le lancement officiel de notre nouveau projet de lotissement d'envergure, s'étendant sur plus de 45 hectares. Ce projet ambiieux, baptisé "Horizon Sud", vise à créer un nouveau pôle de vie moderne et structuré, répondant à la demande croissante en logements de qualité.</p>
 
       <h3>Une vision urbaine intégrée</h3>
       <p>Le projet "Horizon Sud" n'est pas qu'un simple découpage de parcelles. C'est une véritable ville dans la ville que nous concevons. Nos urbanistes ont travaillé pendant 12 mois pour optimiser la circulation, maximiser les espaces verts et garantir une sécurité optimale aux futurs résidents.</p>
@@ -298,7 +344,7 @@ export const news = [
     category: 'Hôtellerie',
     author: 'Pôle Développement',
     date: '28 Avril 2026',
-    image: '/images/photo-ceb2d617.jpg',
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
     excerpt:
       'Le groupe accompagne un investisseur privé dans la conception et la réalisation d un hôtel 4 étoiles.',
     content: `
@@ -326,7 +372,7 @@ export const news = [
     category: 'Agro-industrie',
     author: 'Responsable Agro',
     date: '10 Mars 2026',
-    image: '/images/photo-a8296063.jpg',
+    image: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1200&q=80',
     excerpt:
       'Les équipes travaillent sur une ferme moderne avec stockage, transformation et transport intégré.',
     content: `
@@ -347,6 +393,42 @@ export const news = [
     tags: ['Agriculture', 'Logistique', 'Développement'],
     gallery: ['/images/photo-a8296063.jpg', '/images/photo-c5bc98d7.jpg']
   },
+  {
+    id: 'nouveau-siege',
+    title: 'Inauguration du nouveau siège social',
+    category: 'Groupe',
+    author: 'Direction',
+    date: '05 Février 2026',
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+    excerpt: 'Immobilier Pluriel emménage dans des locaux ultra-modernes à Yamoussoukro.',
+    content: '<p>Un nouvel espace de travail pour accompagner notre croissance.</p>',
+    tags: ['Immobilier', 'Entreprise'],
+    gallery: []
+  },
+  {
+    id: 'formation-btp-2026',
+    title: 'Lancement de la session de formation BTP',
+    category: 'Formation',
+    author: 'Pôle RH',
+    date: '20 Janvier 2026',
+    image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80',
+    excerpt: '50 jeunes formés aux métiers de la topographie et du génie civil.',
+    content: '<p>Nous investissons dans la main-d\'œuvre de demain.</p>',
+    tags: ['Formation', 'Jeunesse'],
+    gallery: []
+  },
+  {
+    id: 'partenariat-solaire',
+    title: 'Partenariat pour l énergie solaire',
+    category: 'Innovation',
+    author: 'Innovation',
+    date: '10 Janvier 2026',
+    image: 'https://images.unsplash.com/photo-1509391366360-fe5bb584850a?auto=format&fit=crop&w=1200&q=80',
+    excerpt: 'Tous nos nouveaux lotissements seront équipés d un éclairage public 100% solaire.',
+    content: '<p>Une transition énergétique nécessaire pour nos projets urbains.</p>',
+    tags: ['Solaire', 'Énergie'],
+    gallery: []
+  }
 ];
 
 export const socialLinks = {
@@ -362,10 +444,10 @@ export const socialLinks = {
 };
 
 export const contactInfo = [
-  { label: 'Adresse', value: 'Quartier des affaires, Ouagadougou' },
-  { label: 'Téléphone', value: '+226 70 00 00 00' },
-  { label: 'Email', value: 'contact@savane-immobilier.com' },
-  { label: 'Horaires', value: 'Lun - Ven, 08h00 - 17h30' },
+  { label: 'Adresse', value: "Yamoussoukro, 220 Logements, Côte d'Ivoire" },
+  { label: 'Téléphone', value: '+225 07 00 00 00 00' },
+  { label: 'Email', value: 'contact@immobilierpluriel.com' },
+  { label: 'Horaires', value: 'Lun - Ven, 08h00 - 18h00' },
 ];
 
 export const principles = [

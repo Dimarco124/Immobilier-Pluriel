@@ -1,29 +1,260 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiArrowRight, FiArrowUpRight, FiMapPin, FiMaximize, FiCalendar, FiClock, FiMessageCircle } from 'react-icons/fi';
-import { company, services, projects, visionStats, visionQuote, news } from '../data/companyData';
-import { terrains } from '../data/terrainsData';
+import { FiArrowRight, FiArrowUpRight, FiMapPin, FiMaximize, FiCalendar, FiClock, FiMessageCircle, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import {
+  company as fallbackCompany,
+  services as fallbackServices,
+  projects as fallbackProjects,
+  visionStats as fallbackVisionStats,
+  visionQuote as fallbackVisionQuote,
+  news as fallbackNews,
+} from '../data/companyData';
+import { terrains as fallbackTerrains } from '../data/terrainsData';
+import { getCompanyInfo, getHeroSlides, getNews, getProjects, getServices, getTerrains, getVision, getImageUrl, getTestimonials } from '../services/api';
+import Loader from '../components/Loader';
 
-const heroSlides = [
+const fallbackHeroSlides = [
   {
-    image: 'https://images.pexels.com/photos/457878/pexels-photo-457878.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    image: getImageUrl('/images/bannieres/hero-default.jpg'),
     title: 'Aménager le territoire avec vision et nature',
   },
   {
-    image: 'https://images.pexels.com/photos/1179229/pexels-photo-1179229.jpeg?auto=compress&cs=tinysrgb&w=1920',
-    title: "Des terrains viabilisés au cœur de paysages d'exception",
+    image: '/images/bannieres/viabiliser.png',
+    title: "Des terrains viabilisés, une nature préservée",
   },
   {
-    image: 'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=1920',
-    title: 'Construire durablement pour les générations futures',
+    image: '/images/bannieres/yooooo.png',
+    title: (
+      <>
+        Bâtir aujourd&apos;hui,
+        <br />
+        penser demain.
+      </>
+    ),
   },
 ];
 
 const atelierImage = '/images/photo-95cf3dfb.jpg';
-const showcaseProject = projects[0];
+
+function Counter({ value, duration = 2000 }) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const elementRef = (node) => {
+    if (node !== null && !started) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setStarted(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.1 }
+      );
+      observer.observe(node);
+    }
+  };
+
+  useEffect(() => {
+    if (!started) return;
+
+    const end = parseInt(value, 10);
+    if (isNaN(end) || end === 0) {
+      setCount(end || 0);
+      return;
+    }
+
+    const startTime = performance.now();
+
+    const updateCount = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Easing function: easeOutExpo
+      const easedProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+
+      const currentCount = Math.floor(easedProgress * end);
+      setCount(currentCount);
+
+      if (progress < 1) {
+        requestAnimationFrame(updateCount);
+      } else {
+        setCount(end);
+      }
+    };
+
+    requestAnimationFrame(updateCount);
+  }, [started, value, duration]);
+
+  return <span ref={elementRef}>{count}</span>;
+}
 
 export default function Home() {
   const [heroIndex, setHeroIndex] = useState(0);
+  const [heroSlides, setHeroSlides] = useState(fallbackHeroSlides);
+  const [company, setCompany] = useState(fallbackCompany);
+  const [services, setServices] = useState(fallbackServices);
+  const [projects, setProjects] = useState(fallbackProjects);
+  const [news, setNews] = useState(fallbackNews);
+  const [featuredTerrains, setFeaturedTerrains] = useState(fallbackTerrains.slice(0, 5));
+  const [promoTerrains, setPromoTerrains] = useState(fallbackTerrains.slice(0, 6));
+  const [visionStats, setVisionStats] = useState(fallbackVisionStats);
+  const [visionQuote, setVisionQuote] = useState(fallbackVisionQuote);
+
+  const [loadingFeatured, setLoadingFeatured] = useState(false);
+  const [loadingPromo, setLoadingPromo] = useState(false);
+  const [loadingProjects, setLoadingProjects] = useState(false);
+  const [loadingNews, setLoadingNews] = useState(false);
+  const [testimonials, setTestimonials] = useState([]);
+  const [loadingTestimonials, setLoadingTestimonials] = useState(false);
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
+  useEffect(() => {
+    if (testimonials.length <= 1) return;
+    const interval = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [testimonials]);
+
+  const handlePrevTestimonial = () => {
+    setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const handleNextTestimonial = () => {
+    setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+  };
+
+  useEffect(() => {
+    // Charger les hero slides
+    getHeroSlides()
+      .then((res) => {
+        if (res.data && res.data.length > 0) {
+          setHeroSlides(res.data.map((slide) => ({
+            image: slide.image_url,
+            title: slide.title,
+          })));
+        }
+      })
+      .catch(() => {
+        // Garder les fallback slides en cas d'erreur
+      });
+
+    // Charger les infos de l'entreprise
+    getCompanyInfo()
+      .then((res) => {
+        if (res.data) {
+          setCompany(res.data);
+        }
+      })
+      .catch(() => {
+        // Garder les fallback company en cas d'erreur
+      });
+
+    // Charger les services
+    getServices()
+      .then((res) => {
+        if (res.data && res.data.length > 0) {
+          setServices(res.data);
+        }
+      })
+      .catch(() => {
+        // Garder les fallback services en cas d'erreur
+      });
+
+    // Charger les projets avec loader
+    setLoadingProjects(true);
+    getProjects({ per_page: 100, sort: 'latest' })
+      .then((res) => {
+        if (res.data.data && res.data.data.length > 0) {
+          setProjects(res.data.data);
+        }
+      })
+      .catch(() => {
+        // Garder les fallback projects en cas d'erreur
+      })
+      .finally(() => {
+        setLoadingProjects(false);
+      });
+
+    // Charger les actualités avec loader
+    setLoadingNews(true);
+    getNews({ per_page: 3 })
+      .then((res) => {
+        if (res.data.data && res.data.data.length > 0) {
+          setNews(res.data.data);
+        }
+      })
+      .catch(() => {
+        // Garder les fallback news en cas d'erreur
+      })
+      .finally(() => {
+        setLoadingNews(false);
+      });
+
+    // Charger les terrains en vedette avec loader
+    setLoadingFeatured(true);
+    getTerrains({ featured: true, per_page: 5 })
+      .then((res) => {
+        if (res.data.data && res.data.data.length > 0) {
+          setFeaturedTerrains(res.data.data);
+        }
+      })
+      .catch(() => {
+        // Garder les fallback terrains en cas d'erreur
+      })
+      .finally(() => {
+        setLoadingFeatured(false);
+      });
+
+    // Charger les terrains en promotion avec loader
+    setLoadingPromo(true);
+    getTerrains({ is_promotion: true, sort: 'latest', per_page: 6 })
+      .then((res) => {
+        if (res.data.data && res.data.data.length > 0) {
+          setPromoTerrains(res.data.data);
+        }
+      })
+      .catch(() => {
+        // Garder les fallback terrains en cas d'erreur
+      })
+      .finally(() => {
+        setLoadingPromo(false);
+      });
+
+    // Charger la vision
+    getVision()
+      .then((res) => {
+        if (res.data.stats && res.data.stats.length > 0) {
+          setVisionStats(res.data.stats);
+        }
+        if (res.data.section) {
+          setVisionQuote({
+            text: res.data.section.quote_text,
+            author: res.data.section.quote_author,
+            role: res.data.section.quote_role,
+            image: res.data.section.quote_image_url,
+          });
+        }
+      })
+      .catch(() => {
+        // Garder les fallback vision en cas d'erreur
+      });
+
+    // Charger les témoignages
+    setLoadingTestimonials(true);
+    getTestimonials()
+      .then((res) => {
+        if (res.data && res.data.length > 0) {
+          setTestimonials(res.data);
+        }
+      })
+      .catch(() => {
+        // Ignorer en cas d'erreur
+      })
+      .finally(() => {
+        setLoadingTestimonials(false);
+      });
+  }, []);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -32,7 +263,14 @@ export default function Home() {
     return () => window.clearInterval(timer);
   }, []);
 
-  const [featuredTerrain, ...otherTerrains] = terrains;
+  const [featuredTerrain] = featuredTerrains;
+  const latestPromoTerrain = promoTerrains[0] || featuredTerrains[0] || fallbackTerrains[0];
+  const showcaseProject = [...projects]
+    .sort((a, b) => {
+      const dateA = new Date(a.date || a.year || a.created_at || 0);
+      const dateB = new Date(b.date || b.year || b.created_at || 0);
+      return dateB - dateA;
+    })[0] || fallbackProjects[0];
 
   return (
     <div className="landing-page">
@@ -40,11 +278,11 @@ export default function Home() {
         <div className="nl-hero-media">
           {heroSlides.map((slide, index) => (
             <article
-              key={slide.image}
+              key={`${slide.image}-${index}`}
               className={`nl-hero-slide${index === heroIndex ? ' is-active' : ''}`}
               aria-hidden={index !== heroIndex}
             >
-              <img src={slide.image} alt="" draggable={false} />
+              <img src={getImageUrl(slide.image)} alt="" draggable={false} />
             </article>
           ))}
           <div className="nl-hero-overlay" aria-hidden="true" />
@@ -63,7 +301,7 @@ export default function Home() {
             <div className="nl-hero-dots" aria-label="Navigation du carrousel">
               {heroSlides.map((slide, index) => (
                 <button
-                  key={slide.image}
+                  key={`${slide.image}-${index}`}
                   type="button"
                   className={index === heroIndex ? 'is-active' : ''}
                   onClick={() => setHeroIndex(index)}
@@ -77,13 +315,14 @@ export default function Home() {
             <div className="nl-hero-card-icon" aria-hidden="true">
               <span className="nl-hero-card-dot" />
             </div>
+            <span className="nl-hero-card-tag">Promotion</span>
             <h3>Opportunité du moment</h3>
             <p>
-              <strong>{terrains[0].title}</strong>
+              <strong>{latestPromoTerrain?.title}</strong>
               <br />
-              {terrains[0].location}
+              {latestPromoTerrain?.location}
             </p>
-            <Link to={`/terrains/${terrains[0].id}`} className="nl-btn nl-btn-outline">
+            <Link to={`/terrains/${latestPromoTerrain?.id}`} className="nl-btn nl-btn-outline">
               Voir le terrain
             </Link>
           </aside>
@@ -91,9 +330,6 @@ export default function Home() {
       </section>
 
       <section className="nl-manifest" id="decouvrir" aria-labelledby="manifest-title">
-        <div className="nl-manifest-watermark" aria-hidden="true">
-          {visionStats[0].value}
-        </div>
         <div className="nl-manifest-inner">
           <div className="nl-manifest-grid reveal">
             <div className="nl-manifest-copy">
@@ -112,7 +348,7 @@ export default function Home() {
                 {visionStats.map((stat, i) => (
                   <div key={stat.label} className="nl-manifest-ticker-item">
                     <span className="nl-manifest-ticker-value">
-                      <span>{stat.value}</span>
+                      <Counter value={stat.value} />
                       {stat.suffix}
                     </span>
                     <span className="nl-manifest-ticker-label">{stat.label}</span>
@@ -128,7 +364,7 @@ export default function Home() {
               <div className="nl-manifest-voice-inner">
                 <p className="nl-manifest-quote">{visionQuote.text}</p>
                 <footer className="nl-manifest-author">
-                  <img src={visionQuote.image} alt="" width={56} height={56} loading="lazy" />
+                  <img src={getImageUrl(visionQuote.image)} alt="" width={56} height={56} loading="lazy" />
                   <div>
                     <strong>{visionQuote.author}</strong>
                     <span>{visionQuote.role}</span>
@@ -152,26 +388,32 @@ export default function Home() {
             <p>Une sélection exclusive de nos nouveaux terrains récemment mis sur le marché.</p>
           </header>
 
-          <div className="nl-home-parcel-grid reveal">
-            {terrains.slice(0, 5).map((terrain) => (
-              <Link key={terrain.id} to={`/terrains/${terrain.id}`} className="nl-home-parcel">
-                <img src={terrain.image} alt={terrain.title} loading="lazy" />
-                <span className="ix-parcel-badge">{terrain.status}</span>
-                <div className="ix-parcel-cap">
-                  <h3>{terrain.title}</h3>
-                  <p className="ix-parcel-meta">
-                    <span>
-                      <FiMapPin aria-hidden="true" /> {terrain.location}
-                    </span>
-                    <span>
-                      <FiMaximize aria-hidden="true" /> {terrain.area}
-                    </span>
-                  </p>
-                  <span className="ix-parcel-price">{terrain.price}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
+          {loadingFeatured ? (
+            <div style={{ padding: '60px 0', display: 'flex', justifyContent: 'center' }}>
+              <Loader />
+            </div>
+          ) : (
+            <div className="nl-home-parcel-grid reveal">
+              {featuredTerrains.map((terrain) => (
+                <Link key={terrain.id} to={`/terrains/${terrain.id}`} className="nl-home-parcel">
+                  <img src={getImageUrl(terrain.image_url || terrain.image)} alt={terrain.title} loading="lazy" />
+                  <span className="ix-parcel-badge">{terrain.status}</span>
+                  <div className="ix-parcel-cap">
+                    <h3>{terrain.title}</h3>
+                    <p className="ix-parcel-meta">
+                      <span>
+                        <FiMapPin aria-hidden="true" /> {terrain.location}
+                      </span>
+                      <span>
+                        <FiMaximize aria-hidden="true" /> {terrain.area}
+                      </span>
+                    </p>
+                    <span className="ix-parcel-price">{terrain.price}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
 
           <div style={{ textAlign: 'center', marginTop: '40px' }}>
             <Link to="/terrains" className="nl-btn nl-btn-mint">
@@ -205,7 +447,7 @@ export default function Home() {
                       <li key={`${copy}-${item.title}`}>
                         <figure className="nl-services-marquee-card">
                           <div className="nl-services-marquee-img">
-                            <img src={item.image} alt={item.title} loading="lazy" />
+                            <img src={getImageUrl(item.image_url || item.image)} alt={item.title} loading="lazy" />
                           </div>
                           <figcaption className="nl-services-marquee-title">{item.title}</figcaption>
                         </figure>
@@ -232,31 +474,30 @@ export default function Home() {
               <p>Chaque projet est une preuve de notre engagement pour un aménagement durable et de qualité.</p>
             </header>
 
-            <div className="nl-atelier-spotlight reveal reveal-delay-2">
-              <div className="nl-atelier-spotlight-media">
-                <img src={showcaseProject.image} alt="" loading="lazy" />
-                {showcaseProject.results && (
-                  <div className="nl-atelier-spotlight-results">
-                    {showcaseProject.results.slice(0, 2).map((res, idx) => (
-                      <span key={idx} className="nl-result-badge">{res}</span>
-                    ))}
+            {loadingProjects ? (
+              <div style={{ padding: '60px 0', display: 'flex', justifyContent: 'center' }}>
+                <Loader />
+              </div>
+            ) : (
+              <div className="nl-atelier-spotlight reveal reveal-delay-2">
+                <div className="nl-atelier-spotlight-media">
+                  <img src={showcaseProject.image_url || showcaseProject.image} alt="" loading="lazy" />
+                </div>
+                <div className="nl-atelier-spotlight-copy">
+                  <div className="nl-spotlight-header">
+                    <span className="nl-atelier-spotlight-label">Réalisation récente</span>
+                    <span className="nl-spotlight-year">{showcaseProject.year}</span>
                   </div>
-                )}
-              </div>
-              <div className="nl-atelier-spotlight-copy">
-                <div className="nl-spotlight-header">
-                  <span className="nl-atelier-spotlight-label">Réalisation récente</span>
-                  <span className="nl-spotlight-year">{showcaseProject.year}</span>
-                </div>
-                <h3>{showcaseProject.title}</h3>
-                <p>{showcaseProject.description}</p>
-                <div className="nl-spotlight-footer">
-                  <Link to={`/portfolio/${showcaseProject.id}`} className="nl-atelier-spotlight-link">
-                    Voir le dossier complet <FiArrowUpRight />
-                  </Link>
+                  <h3>{showcaseProject.title}</h3>
+                  <p>{showcaseProject.description}</p>
+                  <div className="nl-spotlight-footer">
+                    <Link to={`/portfolio/${showcaseProject.slug || showcaseProject.id}`} className="nl-atelier-spotlight-link">
+                      Voir le dossier complet <FiArrowUpRight />
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             <div style={{ textAlign: 'center', marginTop: '60px' }} className="reveal">
               <Link to="/portfolio" className="nl-btn nl-btn-mint">
@@ -278,19 +519,9 @@ export default function Home() {
                 <Link to="/terrains" className="nl-btn nl-btn-mint">
                   Découvrir nos terrains
                 </Link>
-                <Link to="/contact" className="nl-btn nl-btn-white-outline">
-                  <FiMessageCircle /> Demander un conseil
-                </Link>
-              </div>
-            </div>
-            <div className="nl-cta-promo-stats">
-              <div className="nl-cta-stat">
-                <strong>ACD</strong>
-                <span>Titres Sécurisés</span>
-              </div>
-              <div className="nl-cta-stat">
-                <strong>100%</strong>
-                <span>Expertise Foncière</span>
+                <a href="/contact#google-map" className="nl-btn nl-btn-white-outline">
+                  <FiMapPin /> Voir notre localisation
+                </a>
               </div>
             </div>
           </div>
@@ -310,7 +541,7 @@ export default function Home() {
           </header>
 
           <Link to={`/terrains/${featuredTerrain.id}`} className="nl-lands-featured reveal">
-            <img src={featuredTerrain.image} alt={featuredTerrain.title} loading="lazy" />
+            <img src={featuredTerrain.image_url || featuredTerrain.image} alt={featuredTerrain.title} loading="lazy" />
             <div className="nl-lands-featured-cap">
               <span className="nl-lands-tag nl-lands-tag--promo">Sélection d&apos;Exception</span>
               <h3>{featuredTerrain.title}</h3>
@@ -323,22 +554,28 @@ export default function Home() {
             </div>
           </Link>
 
-          <div className="nl-lands-promo-slider-container reveal reveal-delay-1">
-            <div className="nl-lands-promo-track">
-              {[...terrains.slice(0, 6), ...terrains.slice(0, 6)].map((terrain, index) => (
-                <Link key={`${terrain.id}-${index}`} to={`/terrains/${terrain.id}`} className="nl-lands-tile nl-lands-tile--promo">
-                  <img src={terrain.image} alt={terrain.title} loading="lazy" />
-                  <div className="nl-lands-tile-cap">
-                    <span className="nl-lands-tile-tag">Opportunité</span>
-                    <h3>{terrain.title}</h3>
-                    <div className="nl-lands-tile-prices">
-                      <span className="nl-lands-tile-price-new">{terrain.price}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+          {loadingPromo ? (
+            <div style={{ padding: '60px 0', display: 'flex', justifyContent: 'center' }}>
+              <Loader />
             </div>
-          </div>
+          ) : (
+            <div className="nl-lands-promo-slider-container reveal reveal-delay-1">
+              <div className="nl-lands-promo-track">
+                {promoTerrains.slice(0, 6).map((terrain, index) => (
+                  <Link key={`${terrain.id}-${index}`} to={`/terrains/${terrain.id}`} className="nl-lands-tile nl-lands-tile--promo">
+                    <img src={terrain.image_url || terrain.image} alt={terrain.title} loading="lazy" />
+                    <div className="nl-lands-tile-cap">
+                      <span className="nl-lands-tile-tag">Promo</span>
+                      <h3>{terrain.title}</h3>
+                      <div className="nl-lands-tile-prices">
+                        <span className="nl-lands-tile-price-new">{terrain.price}</span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           <p className="nl-lands-foot reveal reveal-delay-2">
             <Link to="/terrains" className="nl-btn nl-btn-mint">
@@ -360,30 +597,129 @@ export default function Home() {
             <p>Découvrez les derniers projets, signatures d&apos;accords et innovations du groupe.</p>
           </header>
 
-          <div className="nl-home-news-grid reveal reveal-delay-1">
-            {news.slice(0, 3).map((item) => (
-              <Link key={item.id} to={`/news/${item.id}`} className="nl-news-card-home">
-                <div className="nl-news-card-img">
-                  <img src={item.image} alt={item.title} loading="lazy" />
-                  <span className="nl-news-card-cat">{item.category}</span>
-                </div>
-                <div className="nl-news-card-content">
-                  <div className="nl-news-card-meta">
-                    <span><FiCalendar /> {item.date}</span>
+          {loadingNews ? (
+            <div style={{ padding: '60px 0', display: 'flex', justifyContent: 'center' }}>
+              <Loader />
+            </div>
+          ) : (
+            <div className="nl-home-news-grid reveal reveal-delay-1">
+              {news.slice(0, 3).map((item) => (
+                <Link key={item.slug || item.id} to={`/news/${item.slug || item.id}`} className="nl-news-card-home">
+                  <div className="nl-news-card-img">
+                    <img src={item.image_url || item.image} alt={item.title} loading="lazy" />
+                    <span className="nl-news-card-cat">{item.category}</span>
                   </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.excerpt}</p>
-                  <span className="nl-news-card-link">Lire la suite <FiArrowRight /></span>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  <div className="nl-news-card-content">
+                    <div className="nl-news-card-meta">
+                      <span><FiCalendar /> {item.date}</span>
+                    </div>
+                    <h3>{item.title}</h3>
+                    <p>{item.excerpt}</p>
+                    <span className="nl-news-card-link">Lire la suite <FiArrowRight /></span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
 
           <div style={{ textAlign: 'center', marginTop: '50px' }}>
             <Link to="/news" className="nl-btn nl-btn-outline">
               Toutes les actualités
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="nl-home-testimonials" style={{ padding: '100px 0', background: '#fff' }}>
+        <div className="ix-wrap">
+          <header className="nl-lands-head reveal">
+            <span className="nl-section-label">Témoignages</span>
+            <h2 id="testimonials-title">
+              Ce que disent
+              <br />
+              <em>nos clients</em>
+            </h2>
+            <p>Leur satisfaction est notre plus belle réussite et la preuve de notre engagement.</p>
+          </header>
+
+          {loadingTestimonials ? (
+            <div style={{ padding: '60px 0', display: 'flex', justifyContent: 'center' }}>
+              <Loader />
+            </div>
+          ) : testimonials.length > 0 ? (
+            <div className="nl-testimonials-carousel-wrapper reveal reveal-delay-1">
+              <div className="nl-testimonials-info">
+                <p style={{ fontSize: '1.1rem', lineHeight: '1.7', color: '#666', margin: 0 }}>
+                  Découvrez les retours d'expérience de nos acquéreurs et partenaires qui nous font confiance pour leurs investissements fonciers et immobiliers.
+                </p>
+                <div className="nl-testimonials-nav">
+                  <button
+                    onClick={handlePrevTestimonial}
+                    className="nl-testimonials-nav-btn"
+                    aria-label="Témoignage précédent"
+                  >
+                    <FiChevronLeft size={20} />
+                  </button>
+                  <button
+                    onClick={handleNextTestimonial}
+                    className="nl-testimonials-nav-btn"
+                    aria-label="Témoignage suivant"
+                  >
+                    <FiChevronRight size={20} />
+                  </button>
+                </div>
+              </div>
+
+              <div className="nl-testimonials-carousel-container">
+                {testimonials.map((testimonial, index) => {
+                  const isActive = index === activeTestimonial;
+                  return (
+                    <div
+                      key={testimonial.id}
+                      className={`nl-testimonial-card-slide${isActive ? ' is-active' : ''}`}
+                    >
+                      <div>
+                        <div className="nl-testimonial-quote-icon">“</div>
+                        <p className="nl-testimonial-text">"{testimonial.content}"</p>
+                      </div>
+                      
+                      <div className="nl-testimonial-client">
+                        {testimonial.image_url ? (
+                          <img
+                            src={getImageUrl(testimonial.image_url)}
+                            alt={testimonial.name}
+                            className="nl-testimonial-avatar"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="nl-testimonial-avatar-placeholder">
+                            {testimonial.name.charAt(0)}
+                          </div>
+                        )}
+                        <div className="nl-testimonial-client-info">
+                          <h4>{testimonial.name}</h4>
+                          <span>{testimonial.role}</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
+
+          {testimonials.length > 1 && (
+            <div className="nl-testimonials-dots">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveTestimonial(index)}
+                  className={`nl-testimonials-dot${index === activeTestimonial ? ' is-active' : ''}`}
+                  aria-label={`Aller au témoignage ${index + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

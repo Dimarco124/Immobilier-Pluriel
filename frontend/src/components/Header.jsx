@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
-const links = [
+const fallbackLinks = [
   { to: '/', label: 'Home' },
   { to: '/terrains', label: 'Terrains' },
   { to: '/services', label: 'Services' },
   { to: '/portfolio', label: 'Réalisations' },
+  { to: '/team', label: 'Équipe' },
   { to: '/news', label: 'Actualités' },
 ];
 
@@ -47,6 +48,20 @@ export default function Header() {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('menu-open');
+    } else {
+      document.body.style.overflow = '';
+      document.body.classList.remove('menu-open');
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.body.classList.remove('menu-open');
+    };
+  }, [menuOpen]);
+
   const headerClass = [
     'nl-header',
     isHome ? 'nl-header--overlay' : 'nl-header--solid',
@@ -60,11 +75,16 @@ export default function Header() {
     <header className={headerClass}>
       <div className="nl-header-inner">
         <Link to="/" className="nl-brand" onClick={() => setMenuOpen(false)}>
-          <img src="/images/logo_immobilier.png" alt="Immobilier Pluriel" className="nl-brand-icon" style={{ width: '60px', height: '60px' }} />
+          <img src="/images/logo_immobilier.png" alt="Immobilier Pluriel" className="nl-brand-icon" style={{ width: '50px', height: '50px' }} />
+          <div className="nl-brand-text">
+            <span>IMMOBILIER</span>
+            <span>PLURIEL</span>
+            <span>SAR</span>
+          </div>
         </Link>
 
         <nav className="nl-nav" aria-label="Navigation principale">
-          {links.map((link) =>
+          {fallbackLinks.map((link) =>
             link.hash && isHome ? (
               <a key={link.label} href={link.hash} className="nl-nav-link">
                 {link.label}
@@ -88,45 +108,55 @@ export default function Header() {
           </Link>
           <button
             type="button"
-            className="nl-menu-toggle"
+            className={`nl-hamburger ${menuOpen ? 'is-active' : ''}`}
             aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
           >
-            {menuOpen ? <FiX /> : <FiMenu />}
+            <span className="nl-hamburger-bar"></span>
+            <span className="nl-hamburger-bar"></span>
+            <span className="nl-hamburger-bar"></span>
           </button>
         </div>
       </div>
 
-      {menuOpen && (
-        <nav className="nl-nav-mobile" aria-label="Menu mobile">
-          {links.map((link) =>
-            link.hash && isHome ? (
-              <a
-                key={link.label}
-                href={link.hash}
-                className="nl-nav-link"
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </a>
-            ) : (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) => `nl-nav-link${isActive ? ' is-active' : ''}`}
-                onClick={() => setMenuOpen(false)}
-                end={link.to === '/'}
-              >
-                {link.label}
-              </NavLink>
-            ),
-          )}
-          <Link to="/contact" className="nl-btn nl-btn-white" onClick={() => setMenuOpen(false)}>
-            Nous contacter
-          </Link>
+      <div className={`nl-mobile-overlay ${menuOpen ? 'is-active' : ''}`}>
+        <nav className="nl-mobile-menu" aria-label="Menu mobile">
+          <div className="nl-mobile-menu-inner">
+            {fallbackLinks.map((link, idx) =>
+              link.hash && isHome ? (
+                <a
+                  key={link.label}
+                  href={link.hash}
+                  className="nl-mobile-link"
+                  style={{ transitionDelay: `${idx * 0.1}s` }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <span className="nl-mobile-link-num">0{idx + 1}</span>
+                  <span className="nl-mobile-link-text">{link.label}</span>
+                </a>
+              ) : (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  className={({ isActive }) => `nl-mobile-link${isActive ? ' is-active' : ''}`}
+                  style={{ transitionDelay: `${idx * 0.1}s` }}
+                  onClick={() => setMenuOpen(false)}
+                  end={link.to === '/'}
+                >
+                  <span className="nl-mobile-link-num">0{idx + 1}</span>
+                  <span className="nl-mobile-link-text">{link.label}</span>
+                </NavLink>
+              ),
+            )}
+            <div className="nl-mobile-footer" style={{ transitionDelay: `${fallbackLinks.length * 0.1}s` }}>
+              <Link to="/contact" className="nl-btn nl-btn-mint w-full" onClick={() => setMenuOpen(false)}>
+                Nous contacter
+              </Link>
+            </div>
+          </div>
         </nav>
-      )}
+      </div>
     </header>
   );
 }
