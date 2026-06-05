@@ -265,7 +265,7 @@ Copyright © 2026 Immobilier Pluriel. Tous droits réservés.
 
 ## 👥 Team
 
-Développé par l'équipe Immobilier Pluriel.
+Développé par Kouassi Valdes Moayé.
 
 ---
 
