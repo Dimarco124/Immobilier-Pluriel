@@ -265,3 +265,6 @@ Développé par Kouassi Valdes Moayé.
 ---
 
 **Dernière mise à jour** : juin 2026
+
+<img width="1254" height="1254" alt="ChatGPT Image 8 juil  2026, 16_25_41" src="https://github.com/user-attachments/assets/3dd0e197-baee-4ed8-9a31-08601d522460" />
+
