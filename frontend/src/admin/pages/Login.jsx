@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ArrowUpRight, Leaf, Loader2, LockKeyhole, Mail } from 'lucide-react';
+import { ArrowUpRight, Leaf, Loader2, LockKeyhole, Mail, ShieldCheck } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 const LoginPage = ({ onLogin }) => {
-  const [email, setEmail] = useState('Admin@immobilierpluriel.com');
-  const [password, setPassword] = useState('Pluriel@2024');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -40,51 +40,49 @@ const LoginPage = ({ onLogin }) => {
             <p className="admin-login-kicker">Dashboard</p>
             <h1 className="admin-login-title">Immobilier Pluriel Admin</h1>
             <p className="admin-login-text">
-              Controle les terrains, projets, services, actualites et demandes client depuis Laravel.
+              Gérez les terrains, projets, services, actualités et demandes clients en toute simplicité.
             </p>
           </div>
 
-          <div className="admin-login-stats">
-            {[
-              ['25', 'terrains'],
-              ['8', 'services'],
-              ['6', 'articles'],
-            ].map(([value, label]) => (
-              <div key={label} className="admin-login-stat">
-                <strong>{value}</strong>
-                <span>{label}</span>
-              </div>
-            ))}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255, 255, 255, 0.75)', fontSize: '13px', paddingTop: '24px', borderTop: '1px solid rgba(255, 255, 255, 0.12)' }}>
+            <ShieldCheck size={18} color="#34d399" />
+            <span>Espace de gestion sécurisé • Immobilier Pluriel</span>
           </div>
         </section>
 
         <section className="admin-login-form-panel">
           <p className="admin-login-kicker">Connexion</p>
           <h2 className="admin-login-heading">Bienvenue</h2>
-          <p className="admin-login-subtitle">Entre tes identifiants pour ouvrir le panneau admin.</p>
+          <p className="admin-login-subtitle">Entrez vos identifiants pour ouvrir le panneau d'administration.</p>
 
           <form onSubmit={handleSubmit} className="admin-form">
             <div className="admin-field admin-field-icon">
-              <label>Email</label>
+              <label htmlFor="admin-email">Email</label>
               <span>
                 <Mail size={18} />
                 <input
+                  id="admin-email"
                   type="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
+                  placeholder="admin@immobilierpluriel.com"
+                  autoComplete="email"
                   required
                 />
               </span>
             </div>
 
             <div className="admin-field admin-field-icon">
-              <label>Mot de passe</label>
+              <label htmlFor="admin-password">Mot de passe</label>
               <span>
                 <LockKeyhole size={18} />
                 <input
+                  id="admin-password"
                   type="password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
+                  placeholder="••••••••••••"
+                  autoComplete="current-password"
                   required
                 />
               </span>
