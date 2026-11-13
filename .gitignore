@@ -4,10 +4,15 @@
 .env.*.local
 .env.backup
 .env.production
+!.env.example
 
 # Backend
 backend/.env
-backend/.env.*
+backend/.env.backup
+backend/.env.production
+backend/.env.local
+backend/.env.*.local
+!backend/.env.example
 backend/vendor/
 backend/node_modules/
 backend/storage/logs/*
