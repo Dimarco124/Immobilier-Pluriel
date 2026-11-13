@@ -34,6 +34,7 @@ backend/database/*.db
 artisan_export.php
 export-db.php
 extract_data.php
+docs/
 
 # Frontend
 frontend/node_modules/
