@@ -2208,6 +2208,13 @@
   width: max-content;
 }
 
+.nl-lands-promo-track.is-static {
+  animation: none;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .nl-lands-promo-track:hover {
   animation-play-state: paused;
 }

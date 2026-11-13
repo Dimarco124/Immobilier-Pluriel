@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { company as fallbackCompany } from '../data/companyData';
+import { getCompanyInfo } from '../services/api';
 
 const fallbackLinks = [
   { to: '/', label: 'Home' },
@@ -26,8 +28,34 @@ function TreeLogo() {
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [company, setCompany] = useState(fallbackCompany);
   const location = useLocation();
   const isHome = location.pathname === '/';
+
+  useEffect(() => {
+    const loadCompany = () => {
+      getCompanyInfo()
+        .then((res) => {
+          if (res.data && typeof res.data === 'object' && res.data.name) {
+            setCompany(res.data);
+          }
+        })
+        .catch(() => setCompany(fallbackCompany));
+    };
+
+    loadCompany();
+
+    const handleUpdate = (e) => {
+      if (e?.detail) {
+        setCompany((prev) => ({ ...prev, ...e.detail }));
+      } else {
+        loadCompany();
+      }
+    };
+
+    window.addEventListener('company_updated', handleUpdate);
+    return () => window.removeEventListener('company_updated', handleUpdate);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.pageYOffset > 60);
@@ -75,11 +103,19 @@ export default function Header() {
     <header className={headerClass}>
       <div className="nl-header-inner">
         <Link to="/" className="nl-brand" onClick={() => setMenuOpen(false)}>
-          <img src="/images/logo_immobilier.png" alt="Immobilier Pluriel" className="nl-brand-icon" style={{ width: '50px', height: '50px' }} />
+          <img
+            src="/images/logo_immobilier.png"
+            alt={company?.name || 'Immobilier Pluriel'}
+            className="nl-brand-icon"
+            style={{ width: '50px', height: '50px' }}
+          />
           <div className="nl-brand-text">
-            <span>IMMOBILIER</span>
-            <span>PLURIEL</span>
-            <span>SAR</span>
+            {(company?.name || 'Immobilier Pluriel')
+              .trim()
+              .split(/\s+/)
+              .map((word, idx) => (
+                <span key={idx}>{word}</span>
+              ))}
           </div>
         </Link>
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiFacebook, FiInstagram, FiLinkedin, FiMail, FiMapPin, FiPhone } from 'react-icons/fi';
-import { FaPinterestP, FaTiktok } from 'react-icons/fa6';
+import { FaPinterestP, FaTiktok, FaWhatsapp } from 'react-icons/fa6';
 import { company as fallbackCompany, contactInfo as fallbackContactInfo, socialLinks as fallbackSocialLinks } from '../data/companyData';
 import { getCompanyInfo, getContactInfo, getSocialLinks } from '../services/api';
 
@@ -11,17 +11,41 @@ export default function Footer() {
   const [socialLinks, setSocialLinks] = useState(fallbackSocialLinks);
 
   useEffect(() => {
-    getCompanyInfo().then((res) => setCompany(res.data || fallbackCompany)).catch(() => setCompany(fallbackCompany));
-    getContactInfo().then((res) => setContactInfo(res.data.length ? res.data : fallbackContactInfo)).catch(() => setContactInfo(fallbackContactInfo));
+    getCompanyInfo()
+      .then((res) => {
+        if (res.data && typeof res.data === 'object') {
+          setCompany(res.data);
+        }
+      })
+      .catch(() => setCompany(fallbackCompany));
+
+    getContactInfo()
+      .then((res) => {
+        if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+          setContactInfo(res.data);
+        }
+      })
+      .catch(() => setContactInfo(fallbackContactInfo));
+
     getSocialLinks()
       .then((res) => {
-        const mapped = { ...fallbackSocialLinks };
-        res.data.forEach((item) => {
-          mapped[item.platform] = item.url;
-        });
-        setSocialLinks(mapped);
+        if (res.data && Array.isArray(res.data)) {
+          const mapped = { ...fallbackSocialLinks };
+          res.data.forEach((item) => {
+            if (item.platform && item.url) {
+              mapped[item.platform] = item.url;
+            }
+          });
+          setSocialLinks(mapped);
+        }
       })
       .catch(() => setSocialLinks(fallbackSocialLinks));
+
+    const handleUpdate = (e) => {
+      if (e?.detail) setCompany((prev) => ({ ...prev, ...e.detail }));
+    };
+    window.addEventListener('company_updated', handleUpdate);
+    return () => window.removeEventListener('company_updated', handleUpdate);
   }, []);
 
   return (
@@ -32,17 +56,48 @@ export default function Footer() {
             <div className="nl-footer-brand-box">
               <Link to="/" className="nl-footer-logo-link">
                 <div className="nl-footer-logo-wrapper">
-                  <img src="/images/logo_immobilier.png" alt="Immobilier Pluriel" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+                  <img
+                    src="/images/logo_immobilier.png"
+                    alt={company?.name || "Immobilier Pluriel"}
+                    style={{ width: '40px', height: '40px', objectFit: 'contain' }}
+                  />
                 </div>
+                <span className="nl-footer-brand-title">{company?.name || 'Immobilier Pluriel'}</span>
               </Link>
               <p className="nl-footer-description">
-                Expert en aménagement foncier et promotion immobilière. Nous bâtissons les fondations de vos projets de vie avec rigueur et vision à long terme.
+                {company?.description || "Expert en aménagement foncier et promotion immobilière. Nous bâtissons les fondations de vos projets de vie avec rigueur et vision à long terme."}
               </p>
               <div className="nl-footer-social-strip">
-                <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer"><FiInstagram /></a>
-                <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer"><FiFacebook /></a>
-                <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer"><FiLinkedin /></a>
-                <a href={socialLinks.tiktok} target="_blank" rel="noopener noreferrer"><FaTiktok /></a>
+                {socialLinks.instagram && (
+                  <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <FiInstagram />
+                  </a>
+                )}
+                {socialLinks.facebook && (
+                  <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <FiFacebook />
+                  </a>
+                )}
+                {socialLinks.linkedin && (
+                  <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <FiLinkedin />
+                  </a>
+                )}
+                {socialLinks.tiktok && (
+                  <a href={socialLinks.tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                    <FaTiktok />
+                  </a>
+                )}
+                {socialLinks.whatsapp && (
+                  <a
+                    href={socialLinks.whatsapp.startsWith('http') ? socialLinks.whatsapp : `https://wa.me/${socialLinks.whatsapp.replace(/[^\d]/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="WhatsApp"
+                  >
+                    <FaWhatsapp />
+                  </a>
+                )}
               </div>
             </div>
 
@@ -77,14 +132,21 @@ export default function Footer() {
                   <div className="nl-contact-icon"><FiMapPin /></div>
                   <div className="nl-contact-text">
                     <strong>Adresse</strong>
-                    <a
-                      href="https://www.google.com/maps/search/Yamoussoukro+Quartier+Millionnaire"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="nl-footer-map-link"
-                    >
-                      {contactInfo.find((i) => i.label === 'Adresse')?.value}
-                    </a>
+                    {(() => {
+                      const addr = Array.isArray(contactInfo) ? contactInfo.find((i) => i.label === 'Adresse')?.value : '';
+                      return addr ? (
+                        <a
+                          href={`https://www.google.com/maps/search/${encodeURIComponent(addr)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="nl-footer-map-link"
+                        >
+                          {addr}
+                        </a>
+                      ) : (
+                        <span>-</span>
+                      );
+                    })()}
                   </div>
                 </div>
                 <div className="nl-contact-item">
@@ -92,7 +154,7 @@ export default function Footer() {
                   <div className="nl-contact-text">
                     <strong>Téléphone</strong>
                     {(() => {
-                      const val = contactInfo.find((i) => i.label === 'Téléphone' || i.label === 'Telephone')?.value;
+                      const val = Array.isArray(contactInfo) ? contactInfo.find((i) => i.label === 'Téléphone' || i.label === 'Telephone')?.value : '';
                       return val ? <a href={`tel:${val.replace(/\s+/g, '')}`}>{val}</a> : <span>-</span>;
                     })()}
                   </div>
@@ -102,7 +164,7 @@ export default function Footer() {
                   <div className="nl-contact-text">
                     <strong>Email</strong>
                     {(() => {
-                      const val = contactInfo.find((i) => i.label === 'Email')?.value;
+                      const val = Array.isArray(contactInfo) ? contactInfo.find((i) => i.label === 'Email')?.value : '';
                       return val ? <a href={`mailto:${val}`}>{val}</a> : <span>-</span>;
                     })()}
                   </div>
@@ -120,9 +182,9 @@ export default function Footer() {
               © {new Date().getFullYear()} <strong>{company.name}</strong>. Tous droits réservés.
             </div>
             <div className="nl-creator-credit">
-              Propulsé par{' '}
-              <a href={socialLinks.creator.whatsapp} target="_blank" rel="noopener noreferrer">
-                {socialLinks.creator.name}
+              Développé par{' '}
+              <a href={socialLinks?.creator?.whatsapp || 'https://wa.me/2250554356019'} target="_blank" rel="noopener noreferrer">
+                {socialLinks?.creator?.name || 'Valdes Kouassi'}
               </a>
             </div>
           </div>

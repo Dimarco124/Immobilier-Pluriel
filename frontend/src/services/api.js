@@ -40,9 +40,13 @@ export const getLegalSections = (page) => api.get(`/legal-sections/${page}`);
 
 export const getImageUrl = (path) => {
   if (!path) return '';
-  if (path.startsWith('http')) return path;
-  const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000';
-  if (path.startsWith('/storage')) return `${baseUrl}${path}`;
+  if (typeof path !== 'string') return '';
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  if (cleanPath.startsWith('/storage')) {
+    return `${baseUrl}${cleanPath}`;
+  }
   return path;
 };
 

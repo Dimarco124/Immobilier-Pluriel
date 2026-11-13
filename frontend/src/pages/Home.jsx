@@ -128,7 +128,7 @@ export default function Home() {
     // Charger les hero slides
     getHeroSlides()
       .then((res) => {
-        if (res.data && res.data.length > 0) {
+        if (res.data && Array.isArray(res.data) && res.data.length > 0) {
           setHeroSlides(res.data.map((slide) => ({
             image: slide.image_url,
             title: slide.title,
@@ -142,7 +142,7 @@ export default function Home() {
     // Charger les infos de l'entreprise
     getCompanyInfo()
       .then((res) => {
-        if (res.data) {
+        if (res.data && typeof res.data === 'object') {
           setCompany(res.data);
         }
       })
@@ -153,7 +153,7 @@ export default function Home() {
     // Charger les services
     getServices()
       .then((res) => {
-        if (res.data && res.data.length > 0) {
+        if (res.data && Array.isArray(res.data) && res.data.length > 0) {
           setServices(res.data);
         }
       })
@@ -165,7 +165,7 @@ export default function Home() {
     setLoadingProjects(true);
     getProjects({ per_page: 100, sort: 'latest' })
       .then((res) => {
-        if (res.data.data && res.data.data.length > 0) {
+        if (res.data && res.data.data && Array.isArray(res.data.data) && res.data.data.length > 0) {
           setProjects(res.data.data);
         }
       })
@@ -180,7 +180,7 @@ export default function Home() {
     setLoadingNews(true);
     getNews({ per_page: 3 })
       .then((res) => {
-        if (res.data.data && res.data.data.length > 0) {
+        if (res.data && res.data.data && Array.isArray(res.data.data) && res.data.data.length > 0) {
           setNews(res.data.data);
         }
       })
@@ -195,7 +195,7 @@ export default function Home() {
     setLoadingFeatured(true);
     getTerrains({ featured: true, per_page: 5 })
       .then((res) => {
-        if (res.data.data && res.data.data.length > 0) {
+        if (res.data && res.data.data && Array.isArray(res.data.data) && res.data.data.length > 0) {
           setFeaturedTerrains(res.data.data);
         }
       })
@@ -210,7 +210,7 @@ export default function Home() {
     setLoadingPromo(true);
     getTerrains({ is_promotion: true, sort: 'latest', per_page: 6 })
       .then((res) => {
-        if (res.data.data && res.data.data.length > 0) {
+        if (res.data && res.data.data && Array.isArray(res.data.data) && res.data.data.length > 0) {
           setPromoTerrains(res.data.data);
         }
       })
@@ -224,16 +224,18 @@ export default function Home() {
     // Charger la vision
     getVision()
       .then((res) => {
-        if (res.data.stats && res.data.stats.length > 0) {
-          setVisionStats(res.data.stats);
-        }
-        if (res.data.section) {
-          setVisionQuote({
-            text: res.data.section.quote_text,
-            author: res.data.section.quote_author,
-            role: res.data.section.quote_role,
-            image: res.data.section.quote_image_url,
-          });
+        if (res.data) {
+          if (Array.isArray(res.data.stats) && res.data.stats.length > 0) {
+            setVisionStats(res.data.stats);
+          }
+          if (res.data.section) {
+            setVisionQuote({
+              text: res.data.section.quote_text || fallbackVisionQuote.text,
+              author: res.data.section.quote_author || fallbackVisionQuote.author,
+              role: res.data.section.quote_role || fallbackVisionQuote.role,
+              image: res.data.section.quote_image_url || fallbackVisionQuote.image,
+            });
+          }
         }
       })
       .catch(() => {
@@ -244,7 +246,7 @@ export default function Home() {
     setLoadingTestimonials(true);
     getTestimonials()
       .then((res) => {
-        if (res.data && res.data.length > 0) {
+        if (res.data && Array.isArray(res.data) && res.data.length > 0) {
           setTestimonials(res.data);
         }
       })
@@ -254,6 +256,12 @@ export default function Home() {
       .finally(() => {
         setLoadingTestimonials(false);
       });
+
+    const handleCompanyUpdate = (e) => {
+      if (e?.detail) setCompany((prev) => ({ ...prev, ...e.detail }));
+    };
+    window.addEventListener('company_updated', handleCompanyUpdate);
+    return () => window.removeEventListener('company_updated', handleCompanyUpdate);
   }, []);
 
   useEffect(() => {
@@ -364,7 +372,17 @@ export default function Home() {
               <div className="nl-manifest-voice-inner">
                 <p className="nl-manifest-quote">{visionQuote.text}</p>
                 <footer className="nl-manifest-author">
-                  <img src={getImageUrl(visionQuote.image)} alt="" width={56} height={56} loading="lazy" />
+                  <img
+                    src={getImageUrl(visionQuote.image || fallbackVisionQuote.image)}
+                    alt={visionQuote.author || 'Direction'}
+                    width={56}
+                    height={56}
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = fallbackVisionQuote.image;
+                    }}
+                  />
                   <div>
                     <strong>{visionQuote.author}</strong>
                     <span>{visionQuote.role}</span>
@@ -558,12 +576,13 @@ export default function Home() {
             <div style={{ padding: '60px 0', display: 'flex', justifyContent: 'center' }}>
               <Loader />
             </div>
-          ) : (
+          ) : promoTerrains.length > 0 ? (
             <div className="nl-lands-promo-slider-container reveal reveal-delay-1">
-              <div className="nl-lands-promo-track">
-                {promoTerrains.slice(0, 6).map((terrain, index) => (
+              <div className={`nl-lands-promo-track ${promoTerrains.length < 4 ? 'is-static' : ''}`}>
+                {/* On double les items si on a assez de données pour l'animation infinie */}
+                {(promoTerrains.length < 4 ? promoTerrains : [...promoTerrains, ...promoTerrains]).map((terrain, index) => (
                   <Link key={`${terrain.id}-${index}`} to={`/terrains/${terrain.id}`} className="nl-lands-tile nl-lands-tile--promo">
-                    <img src={terrain.image_url || terrain.image} alt={terrain.title} loading="lazy" />
+                    <img src={getImageUrl(terrain.image_url || terrain.image)} alt={terrain.title} loading="lazy" />
                     <div className="nl-lands-tile-cap">
                       <span className="nl-lands-tile-tag">Promo</span>
                       <h3>{terrain.title}</h3>
@@ -574,6 +593,10 @@ export default function Home() {
                   </Link>
                 ))}
               </div>
+            </div>
+          ) : (
+            <div className="reveal" style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+              <p>Aucune promotion disponible pour le moment.</p>
             </div>
           )}
 
@@ -682,7 +705,7 @@ export default function Home() {
                         <div className="nl-testimonial-quote-icon">“</div>
                         <p className="nl-testimonial-text">"{testimonial.content}"</p>
                       </div>
-                      
+
                       <div className="nl-testimonial-client">
                         {testimonial.image_url ? (
                           <img

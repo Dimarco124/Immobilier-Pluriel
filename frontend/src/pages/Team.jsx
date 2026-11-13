@@ -29,6 +29,12 @@ export default function Team() {
         setPrinciples(fallbackPrinciples);
         setMembers(fallbackTeam);
       });
+
+    const handleUpdate = (e) => {
+      if (e?.detail) setCompanyInfo((prev) => ({ ...prev, ...e.detail }));
+    };
+    window.addEventListener('company_updated', handleUpdate);
+    return () => window.removeEventListener('company_updated', handleUpdate);
   }, []);
 
   return (

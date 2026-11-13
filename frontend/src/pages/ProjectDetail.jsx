@@ -8,14 +8,19 @@ import '../styles/pages/DetailPages.css';
 
 export default function ProjectDetail() {
   const { id } = useParams();
-  const fallbackProject = projects.find((p) => p.id === id);
+  const fallbackProject = Array.isArray(projects) ? projects.find((p) => p.id === id) : null;
   const [project, setProject] = useState(fallbackProject);
 
   useEffect(() => {
+    if (!id) return;
     getProject(id)
-      .then((response) => setProject(response.data))
+      .then((response) => {
+        if (response.data) {
+          setProject(response.data);
+        }
+      })
       .catch(() => setProject(fallbackProject));
-  }, [id]);
+  }, [id, fallbackProject]);
 
   if (!project) {
     return (

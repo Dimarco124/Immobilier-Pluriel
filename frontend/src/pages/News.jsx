@@ -27,7 +27,7 @@ export default function News() {
       });
   }, []);
 
-  const totalPages = Math.ceil(news.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil((Array.isArray(news) ? news.length : 0) / ITEMS_PER_PAGE);
 
   useEffect(() => {
     if (currentPage < 1) {
@@ -38,6 +38,7 @@ export default function News() {
   }, [currentPage, totalPages, setSearchParams]);
 
   const currentList = useMemo(() => {
+    if (!Array.isArray(news)) return [];
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
     return news.slice(start, start + ITEMS_PER_PAGE);
   }, [news, currentPage]);

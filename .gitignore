@@ -25,6 +25,15 @@ backend/database/*.sqlite
 backend/database/*.db
 *.sqlite
 *.db
+*.sql
+
+# Archives & Temporary scripts
+*.7z
+*.zip
+*.tar.gz
+artisan_export.php
+export-db.php
+extract_data.php
 
 # Frontend
 frontend/node_modules/

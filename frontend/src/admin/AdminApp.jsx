@@ -48,7 +48,7 @@ const pages = {
     title: 'Section Vision',
     subtitle: "Mot du directeur et citation affiches sur la page d'accueil.",
     resource: 'vision-sections',
-    columns: ['title', 'quote_author', 'quote_role'],
+    columns: ['quote_image_url', 'title', 'quote_author', 'quote_role'],
   },
   stats: {
     title: 'Statistiques Vision',
@@ -74,6 +74,12 @@ const pages = {
     resource: 'testimonials',
     columns: ['image_url', 'name', 'role', 'content', 'is_active'],
   },
+  'social-links': {
+    title: 'Réseaux Sociaux',
+    subtitle: 'Liens vers les réseaux sociaux affichés dans le footer du site.',
+    resource: 'social-links',
+    columns: ['platform', 'url', 'icon', 'is_active', 'order'],
+  },
   'legal-sections': {
     title: 'Pages Légales',
     subtitle: 'Gérez les sections (titre et contenu) des mentions légales et politiques de confidentialité.',
@@ -90,20 +96,32 @@ function AdminApp() {
   const [dashboardData, setDashboardData] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('admin_user');
+    try {
+      const token = localStorage.getItem('token');
+      const savedUser = localStorage.getItem('admin_user');
 
-    if (token) {
-      setUser(savedUser ? JSON.parse(savedUser) : { name: 'Admin', email: 'Admin@immobilierpluriel.com' });
+      if (token) {
+        let userObj = { name: 'Admin', email: 'Admin@immobilierpluriel.com' };
+        if (savedUser && savedUser !== 'undefined') {
+          try {
+            userObj = JSON.parse(savedUser);
+          } catch (e) {
+            console.error('Failed to parse saved user', e);
+          }
+        }
+        setUser(userObj);
+      }
+    } catch (err) {
+      console.error('Error loading admin session:', err);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }, []);
 
   // Fetch dashboard data for sidebar updates
   useEffect(() => {
     if (!user) return;
-    
+
     const fetchDashboardData = async () => {
       try {
         const token = localStorage.getItem('token');

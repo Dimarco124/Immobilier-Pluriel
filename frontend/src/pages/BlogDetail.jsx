@@ -8,21 +8,25 @@ import '../styles/pages/DetailPages.css';
 
 export default function BlogDetail() {
   const { id } = useParams();
-  const fallbackArticle = news.find((item) => item.id === id);
+  const fallbackArticle = Array.isArray(news) ? news.find((item) => item.id === id) : null;
   const [article, setArticle] = useState(fallbackArticle);
-  const [otherArticles, setOtherArticles] = useState(news.filter((item) => item.id !== id).slice(0, 3));
+  const [otherArticles, setOtherArticles] = useState(Array.isArray(news) ? news.filter((item) => item.id !== id).slice(0, 3) : []);
 
   useEffect(() => {
+    if (!id) return;
     getNewsItem(id)
       .then((response) => {
-        setArticle(response.data.article || response.data);
-        setOtherArticles(response.data.related || []);
+        const data = response.data.article || response.data;
+        if (data) {
+          setArticle(data);
+          setOtherArticles(response.data.related || []);
+        }
       })
       .catch(() => {
         setArticle(fallbackArticle);
-        setOtherArticles(news.filter((item) => item.id !== id).slice(0, 3));
+        setOtherArticles(Array.isArray(news) ? news.filter((item) => item.id !== id).slice(0, 3) : []);
       });
-  }, [id]);
+  }, [id, fallbackArticle]);
 
   if (!article) {
     return (

@@ -3,19 +3,36 @@ import { useParams, Link } from 'react-router-dom';
 import { FiArrowLeft, FiCheck, FiMapPin, FiMaximize, FiShield, FiTrendingUp, FiClock, FiPhone, FiMail, FiCalendar } from 'react-icons/fi';
 import SitePage from '../components/SitePage';
 import { terrains } from '../data/terrainsData';
-import { getTerrain, getImageUrl } from '../services/api';
+import { getTerrain, getImageUrl, getContactInfo } from '../services/api';
 import '../styles/pages/DetailPages.css';
 
 export default function TerrainDetail() {
   const { id } = useParams();
-  const fallbackTerrain = terrains.find((t) => t.id === parseInt(id, 10));
+  const fallbackTerrain = Array.isArray(terrains) ? terrains.find((t) => t.id === parseInt(id, 10)) : null;
   const [terrain, setTerrain] = useState(fallbackTerrain);
+  const [phone, setPhone] = useState('');
 
   useEffect(() => {
+    getContactInfo()
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          const item = res.data.find((i) => i.label === 'Téléphone' || i.label === 'Telephone');
+          if (item?.value) setPhone(item.value);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (!id) return;
     getTerrain(id)
-      .then((response) => setTerrain(response.data))
+      .then((response) => {
+        if (response.data) {
+          setTerrain(response.data);
+        }
+      })
       .catch(() => setTerrain(fallbackTerrain));
-  }, [id]);
+  }, [id, fallbackTerrain]);
 
   if (!terrain) {
     return (
@@ -161,9 +178,15 @@ export default function TerrainDetail() {
               <Link to="/contact" className="nl-btn nl-btn-mint" style={{ width: '100%', marginTop: '20px' }}>
                 <FiMail /> Demander plus d'infos
               </Link>
-              <a href="tel:+237" className="nl-btn nl-btn-outline" style={{ width: '100%', marginTop: '10px' }}>
-                <FiPhone /> Appeler
-              </a>
+              {phone && (
+                <a
+                  href={`tel:${phone.replace(/[^\d+]/g, '')}`}
+                  className="nl-btn nl-btn-outline"
+                  style={{ width: '100%', marginTop: '10px' }}
+                >
+                  <FiPhone /> Appeler ({phone})
+                </a>
+              )}
 
               <p className="ix-side-note">
                 <FiShield /> Accompagnement gratuit pour les formalités notariales.

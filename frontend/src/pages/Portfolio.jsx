@@ -27,7 +27,7 @@ export default function Portfolio() {
       });
   }, []);
 
-  const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil((Array.isArray(projects) ? projects.length : 0) / ITEMS_PER_PAGE);
 
   useEffect(() => {
     if (currentPage < 1) {
@@ -38,6 +38,7 @@ export default function Portfolio() {
   }, [currentPage, totalPages, setSearchParams]);
 
   const currentList = useMemo(() => {
+    if (!Array.isArray(projects)) return [];
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
     return projects.slice(start, start + ITEMS_PER_PAGE);
   }, [projects, currentPage]);

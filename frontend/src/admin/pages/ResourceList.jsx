@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { Edit2, Loader2, Plus, Search, Trash2, Upload, X } from 'lucide-react';
+import { getImageUrl } from '../../services/api';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
@@ -139,6 +140,13 @@ const resourceFields = {
     ['content', 'Contenu', 'textarea', true],
     ['order', 'Ordre d\'affichage', 'number', true],
   ],
+  'social-links': [
+    ['platform', 'Plateforme (facebook, instagram, linkedin, tiktok, whatsapp)', 'text', true],
+    ['url', 'Lien (URL)', 'text', true],
+    ['icon', 'Icône', 'text'],
+    ['order', 'Ordre d\'affichage', 'number'],
+    ['is_active', 'Actif', 'boolean'],
+  ],
 };
 
 const fieldDefaults = {
@@ -151,7 +159,7 @@ const fieldDefaults = {
 };
 
 const toInputValue = (value, type) => {
-  if (type === 'file') return ''; // Les inputs file ne peuvent pas avoir de valeur
+  if (type === 'file') return value ?? ''; // Conserver l'URL de l'image existante pour éviter de l'effacer à la sauvegarde
   if (type === 'array') return Array.isArray(value) ? value.join(', ') : '';
   if (type === 'boolean') return Boolean(value);
   return value ?? '';
@@ -208,6 +216,10 @@ const ResourceList = ({ title, subtitle, resource, columns, readOnly = false }) 
   const fieldLabel = (column) => {
     if (column === 'is_featured') return 'Vedette';
     if (column === 'is_promotion') return 'Promotion';
+    if (column === 'is_active') return 'Actif';
+    if (column === 'platform') return 'Plateforme';
+    if (column === 'order') return 'Ordre';
+    if (column === 'url') return 'Lien';
     return column.replaceAll('_', ' ');
   };
 
@@ -382,7 +394,7 @@ const ResourceList = ({ title, subtitle, resource, columns, readOnly = false }) 
                     <div className="admin-file-upload">
                       {formData[name] ? (
                         <div className="admin-file-preview">
-                          <img src={formData[name]} alt="Preview" className="admin-preview-image" />
+                          <img src={getImageUrl(formData[name])} alt="Preview" className="admin-preview-image" />
                           <button
                             type="button"
                             className="admin-remove-image"
@@ -511,9 +523,9 @@ const ResourceList = ({ title, subtitle, resource, columns, readOnly = false }) 
                     <td key={column}>
                       {index === 0 ? (
                         <div className="admin-table-entity admin-table-entity--with-badges" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          {(item.image_url || item.image) && (
+                          {(item.image_url || item.image || item.quote_image_url) && (
                             <img 
-                              src={item.image_url || item.image} 
+                              src={getImageUrl(item.image_url || item.image || item.quote_image_url)} 
                               alt="Thumbnail" 
                               style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '6px', border: '1px solid var(--admin-border)' }} 
                             />
@@ -528,7 +540,7 @@ const ResourceList = ({ title, subtitle, resource, columns, readOnly = false }) 
                             )}
                           </div>
                         </div>
-                      ) : column === 'is_featured' || column === 'is_promotion' ? (
+                      ) : column === 'is_featured' || column === 'is_promotion' || column === 'is_active' ? (
                         <label className="admin-checkbox-cell">
                           <input
                             type="checkbox"
@@ -537,10 +549,10 @@ const ResourceList = ({ title, subtitle, resource, columns, readOnly = false }) 
                           />
                           <span>{fieldLabel(column)}</span>
                         </label>
-                      ) : ['image_url', 'image', 'icon'].includes(column) ? (
+                      ) : ['image_url', 'image', 'quote_image_url', 'icon'].includes(column) ? (
                         item[column] ? (
                           <img 
-                            src={item[column]} 
+                            src={getImageUrl(item[column])} 
                             alt="Aperçu" 
                             style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', border: '1px solid var(--admin-border)' }} 
                           />

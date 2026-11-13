@@ -33,7 +33,7 @@ export default function Services() {
         <Loader message="Chargement des services..." />
       ) : (
         <>
-          {services.map((service, index) => (
+          {Array.isArray(services) && services.map((service, index) => (
             <article
               key={service.id || service.title}
               className={`ix-band${index % 2 === 1 ? ' ix-band--flip' : ''}${index % 2 === 1 ? ' ix-band--alt' : ''}`}

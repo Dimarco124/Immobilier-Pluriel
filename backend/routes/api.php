@@ -33,6 +33,22 @@ Route::get('/page-headers/{page}', [PublicContentController::class, 'pageHeader'
 Route::get('/legal-sections/{page}', [PublicContentController::class, 'legalSections']);
 Route::post('/contact', [ContactSubmissionController::class, 'store']);
 
+// Fallback pour servir les fichiers uploadés
+Route::get('/storage/uploads/{filename}', function ($filename) {
+    $filename = basename($filename);
+    $path = storage_path('app/public/uploads/' . $filename);
+    if (!file_exists($path)) {
+        $path = dirname(base_path()) . '/storage/uploads/' . $filename;
+    }
+    if (!file_exists($path)) {
+        $path = public_path('storage/uploads/' . $filename);
+    }
+    if (!file_exists($path)) {
+        abort(404);
+    }
+    return response()->file($path);
+});
+
 Route::prefix('admin')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 

@@ -36,6 +36,7 @@ export default function Terrains() {
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
 
   const filteredList = useMemo(() => {
+    if (!Array.isArray(terrains)) return [];
     return terrains.filter((t) => {
       const matchesName = (t.title || '').toLowerCase().includes(searchQuery.name.toLowerCase());
       const matchesLocation = (t.location || '').toLowerCase().includes(searchQuery.location.toLowerCase());

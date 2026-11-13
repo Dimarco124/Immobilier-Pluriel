@@ -438,7 +438,7 @@ export const socialLinks = {
   tiktok: 'https://tiktok.com',
   whatsapp: 'https://whatsapp.com',
   creator: {
-    name: 'Valdes DiMarco',
+    name: 'Valdes Kouassi',
     whatsapp: 'https://wa.me/2250554356019'
   }
 };
